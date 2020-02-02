@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27a452b2-9a01-41c3-8c66-2b389172e7c4" name="Default Changelist" comment="" />
+    <list default="true" id="27a452b2-9a01-41c3-8c66-2b389172e7c4" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -18,10 +22,18 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/FE_project" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="e5c32b1a-50d0-4210-a964-8a28d1a1c3f0" />
+  </component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="hiddenUrls">
+      <set>
+        <option value="https://github.com/siqueirarenan/FE_Project.git" />
+      </set>
+    </option>
   </component>
   <component name="ProjectId" id="1XDIiZpIneflrP8jFLz2dnk6Gsl" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -33,7 +45,36 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Interfce_Abaqus_Inventor/funcoes.py" />
+    <property name="run.code.analysis.last.selected.profile" value="aDefault" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
+  </component>
+  <component name="RunManager">
+    <configuration name="FE" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FE_Project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FE.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.FE" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -48,11 +89,28 @@
     </task>
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/FE_project" />
+    </ignored-roots>
+  </component>
   <component name="WindowStateProjectService">
+    <state x="264" y="20" key="#Notifications" timestamp="1580642191529">
+      <screen x="63" y="0" width="1217" height="720" />
+    </state>
+    <state x="264" y="20" key="#Notifications/63.0.1217.720@63.0.1217.720" timestamp="1580642191529" />
     <state x="127" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580577154759">
       <screen x="63" y="0" width="1217" height="720" />
     </state>
     <state x="127" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog/63.0.1217.720@63.0.1217.720" timestamp="1580577154759" />
+    <state x="420" y="227" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1580608038530">
+      <screen x="63" y="0" width="1217" height="720" />
+    </state>
+    <state x="420" y="227" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/63.0.1217.720@63.0.1217.720" timestamp="1580608038530" />
+    <state x="328" y="0" key="CommitChangelistDialog2" timestamp="1580611754886">
+      <screen x="63" y="0" width="1217" height="720" />
+    </state>
+    <state x="328" y="0" key="CommitChangelistDialog2/63.0.1217.720@63.0.1217.720" timestamp="1580611754886" />
     <state x="452" y="117" key="FileChooserDialogImpl" timestamp="1580603655774">
       <screen x="63" y="0" width="1217" height="720" />
     </state>
@@ -61,9 +119,29 @@
       <screen x="63" y="0" width="1217" height="720" />
     </state>
     <state x="506" y="278" width="355" height="165" key="Github.CreateGistDialog/63.0.1217.720@63.0.1217.720" timestamp="1580601778225" />
-    <state x="173" y="4" key="SettingsEditor" timestamp="1580577097379">
+    <state width="1195" height="176" key="GridCell.Tab.0.bottom" timestamp="1580606661757">
       <screen x="63" y="0" width="1217" height="720" />
     </state>
-    <state x="173" y="4" key="SettingsEditor/63.0.1217.720@63.0.1217.720" timestamp="1580577097379" />
+    <state width="1195" height="176" key="GridCell.Tab.0.bottom/63.0.1217.720@63.0.1217.720" timestamp="1580606661757" />
+    <state width="1195" height="176" key="GridCell.Tab.0.center" timestamp="1580606661756">
+      <screen x="63" y="0" width="1217" height="720" />
+    </state>
+    <state width="1195" height="176" key="GridCell.Tab.0.center/63.0.1217.720@63.0.1217.720" timestamp="1580606661756" />
+    <state width="1195" height="176" key="GridCell.Tab.0.left" timestamp="1580606661756">
+      <screen x="63" y="0" width="1217" height="720" />
+    </state>
+    <state width="1195" height="176" key="GridCell.Tab.0.left/63.0.1217.720@63.0.1217.720" timestamp="1580606661756" />
+    <state width="1195" height="176" key="GridCell.Tab.0.right" timestamp="1580606661757">
+      <screen x="63" y="0" width="1217" height="720" />
+    </state>
+    <state width="1195" height="176" key="GridCell.Tab.0.right/63.0.1217.720@63.0.1217.720" timestamp="1580606661757" />
+    <state x="173" y="4" key="SettingsEditor" timestamp="1580611909947">
+      <screen x="63" y="0" width="1217" height="720" />
+    </state>
+    <state x="173" y="4" key="SettingsEditor/63.0.1217.720@63.0.1217.720" timestamp="1580611909947" />
+    <state x="481" y="279" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580642176767">
+      <screen x="63" y="0" width="1217" height="720" />
+    </state>
+    <state x="481" y="279" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/63.0.1217.720@63.0.1217.720" timestamp="1580642176767" />
   </component>
 </project>

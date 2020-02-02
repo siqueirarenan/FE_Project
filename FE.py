@@ -1,4 +1,5 @@
-
+import pymesh
+import numpy as np
 
 #mdb = openMdb(path+file) 'C:\Users\sique\Desktop\QLK_Model-614-2.cae'
 def openMdb(file_name): #function to open a model data base
@@ -16,7 +17,7 @@ class Mdb:   #class with all the input information in a file (model data base)
         new_Job = job(job_name)
         return new_Job
     def openStep(self,file_name):
-        self.models[self.models.keys()[0]].acis = pass #Importing step model!!!
+        self.models[self.models.keys()[0]].acis = pymesh.load_mesh("model.obj") #open(file_name) #Importing step model
 
 class Model:  #class of a model containing all the parts, material properties,... of a mdb
     name = None #name of the model
@@ -25,23 +26,30 @@ class Model:  #class of a model containing all the parts, material properties,..
     acis = None #geometry file saved in the model to be imported
     def __init__(self,model_name='Model-1'):
         self.name = model_name
-    def PartFromGeometryFile(self,name='Part-1',geometryFile=acis):  #fuction to create a new part
-        self.parts[name] = Part(name)
-        #transformation from the CAD-file
-        pass
+    def PartFromGeometryFile(self,name='Part-1'):  #fuction to create a new part
+        self.parts[name] = Part(name,self.acis)
+        return self.parts[name]
     def Material(self,mat_name): #function to create a new material model
         self.materials[mat_name] = material(mat_name)
-        pass
-
+        return self.materials[mat_name]
 
 class Part:  #class of parts of a model
     name = None
+    geometryFile = None
     nodes = {}
     elements = {}
     sets = {}
     sections ={}
-    def __init__(self,name):
+    seed_size = 0
+    def __init__(self,name,geometryFile):
         self.name = name
+        self.geometry = geometryFile
+    def seedPart(self,seed_size):
+        self.seed_size = seed_size
+    def generateMesh(self):
+        box_min = np.array([])
+        box_max = box_min + np.array([self.seed_size,self.seed_size,self.seed_size])
+        pymesh.generate_box_mesh(box_min, box_max)
 
 class Set(Part):
     pass
@@ -60,9 +68,18 @@ class material:  #class of materials of a model
     def __init__(self,mat_name):
         self.name = mat_name
     def Elastic(self,dependencies=1,table=((0, 0,), )):
+        pass
 
 class job:  #class of jobs of a model
     def __init__(self,job_name):
         self.name = job_name
     def submit(self):  #function that runs the job
         pass
+
+###---------------------------------------------------------------------------------
+mdb=Mdb()
+print(mdb.models.items())
+model=mdb.models['Model-1']
+print(model.name)
+part=model.PartFromGeometryFile()
+print(part.name)
