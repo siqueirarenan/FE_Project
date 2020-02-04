@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="27a452b2-9a01-41c3-8c66-2b389172e7c4" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/meshio.py" afterDir="false" />
+    <list default="true" id="c3d655d6-49df-4669-b60b-08516eb71071" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/FE_Renan_pack/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FE.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BESO_basic.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_Renan_pack/BESO_basic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_Renan_pack/FE.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="FE_Project" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -24,19 +23,8 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
-  <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="e5c32b1a-50d0-4210-a964-8a28d1a1c3f0" />
-  </component>
-  <component name="GithubPullRequestsUISettings">
-    <option name="hiddenUrls">
-      <set>
-        <option value="https://github.com/siqueirarenan/FE_Project.git" />
-      </set>
-    </option>
-  </component>
-  <component name="ProjectId" id="1XDIiZpIneflrP8jFLz2dnk6Gsl" />
+  <component name="ProjectId" id="1XLrCQaVHngPrUfsfQYJ6NmInsF" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -45,243 +33,37 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="run.code.analysis.last.selected.profile" value="aDefault" />
-    <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/FE_Renan_pack" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\sique\Desktop\FE_Project" />
-      <recent name="C:\Users\sique\Desktop\FE_Project\" />
+      <recent name="C:\Users\sique\Desktop\FE_Project\FE_Renan_pack" />
     </key>
-  </component>
-  <component name="RunManager" selected="Python.FE">
-    <configuration name="FE" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FE_Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/FE.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="build (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FE_Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PyMesh/third_party" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PyMesh/third_party/build.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="setup (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FE_Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/pymesh" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/pymesh/setup.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="setup (2)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="FE_Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/PyMesh" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/PyMesh/setup.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Doctests in meshio" type="tests" factoryName="Doctests" temporary="true" nameIsGenerated="true">
-      <module name="FE_Project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/meshio.py" />
-      <option name="CLASS_NAME" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="FOLDER_NAME" value="" />
-      <option name="TEST_TYPE" value="TEST_SCRIPT" />
-      <option name="PATTERN" value="" />
-      <option name="USE_PATTERN" value="false" />
-      <method v="2" />
-    </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="Python.FE" />
-        <item itemvalue="Python tests.Doctests in meshio" />
-        <item itemvalue="Python.build (1)" />
-        <item itemvalue="Python.setup (2)" />
-        <item itemvalue="Python.setup (1)" />
-      </list>
-    </recent_temporary>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\sique\Desktop\FE_Project\FE_Renan_pack" />
+    </key>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="27a452b2-9a01-41c3-8c66-2b389172e7c4" name="Default Changelist" comment="" />
-      <created>1580574365667</created>
+      <changelist id="c3d655d6-49df-4669-b60b-08516eb71071" name="Default Changelist" comment="" />
+      <created>1580836087879</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1580574365667</updated>
+      <updated>1580836087879</updated>
     </task>
-    <task id="LOCAL-00001" summary="Update">
-      <created>1580642283587</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1580642283587</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="VcsManagerConfiguration">
-    <ignored-roots>
-      <path value="$PROJECT_DIR$/FE_project" />
-    </ignored-roots>
-    <MESSAGE value="Update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update" />
-  </component>
   <component name="WindowStateProjectService">
-    <state x="264" y="20" key="#Inspections" timestamp="1580664597292">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="264" y="20" key="#Inspections/63.0.1217.720@63.0.1217.720" timestamp="1580664597292" />
-    <state x="264" y="20" key="#Notifications" timestamp="1580664655592">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="264" y="20" key="#Notifications/63.0.1217.720@63.0.1217.720" timestamp="1580664655592" />
-    <state x="127" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580577154759">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="127" y="17" key="#com.intellij.execution.impl.EditConfigurationsDialog/63.0.1217.720@63.0.1217.720" timestamp="1580577154759" />
-    <state x="420" y="227" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1580608038530">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="420" y="227" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1/63.0.1217.720@63.0.1217.720" timestamp="1580608038530" />
-    <state x="328" y="0" key="CommitChangelistDialog2" timestamp="1580642282727">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="328" y="0" key="CommitChangelistDialog2/63.0.1217.720@63.0.1217.720" timestamp="1580642282727" />
-    <state x="178" y="60" key="DiffContextDialog" timestamp="1580642253538">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="178" y="60" key="DiffContextDialog/63.0.1217.720@63.0.1217.720" timestamp="1580642253538" />
-    <state x="452" y="117" key="FileChooserDialogImpl" timestamp="1580644670316">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="452" y="117" key="FileChooserDialogImpl/63.0.1217.720@63.0.1217.720" timestamp="1580644670316" />
-    <state x="506" y="278" width="355" height="165" key="Github.CreateGistDialog" timestamp="1580601778225">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="506" y="278" width="355" height="165" key="Github.CreateGistDialog/63.0.1217.720@63.0.1217.720" timestamp="1580601778225" />
-    <state width="1259" height="172" key="GridCell.Tab.0.bottom" timestamp="1580819961745">
+    <state x="421" y="101" key="FileChooserDialogImpl" timestamp="1580837013362">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="172" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1580819961745" />
-    <state width="1195" height="183" key="GridCell.Tab.0.bottom/63.0.1217.720@63.0.1217.720" timestamp="1580665210112" />
-    <state width="1259" height="172" key="GridCell.Tab.0.center" timestamp="1580819961744">
+    <state x="421" y="101" key="FileChooserDialogImpl/0.0.1280.689@0.0.1280.689" timestamp="1580837013362" />
+    <state x="337" y="171" key="com.intellij.ide.util.TipDialog" timestamp="1580836236315">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="172" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1580819961744" />
-    <state width="1195" height="183" key="GridCell.Tab.0.center/63.0.1217.720@63.0.1217.720" timestamp="1580665210111" />
-    <state width="1259" height="172" key="GridCell.Tab.0.left" timestamp="1580819961744">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1259" height="172" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1580819961744" />
-    <state width="1195" height="183" key="GridCell.Tab.0.left/63.0.1217.720@63.0.1217.720" timestamp="1580665210111" />
-    <state width="1259" height="172" key="GridCell.Tab.0.right" timestamp="1580819961745">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1259" height="172" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1580819961745" />
-    <state width="1195" height="183" key="GridCell.Tab.0.right/63.0.1217.720@63.0.1217.720" timestamp="1580665210112" />
-    <state width="1259" height="208" key="GridCell.Tab.1.bottom" timestamp="1580695205792">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1259" height="208" key="GridCell.Tab.1.bottom/0.0.1280.689@0.0.1280.689" timestamp="1580695205792" />
-    <state width="1259" height="208" key="GridCell.Tab.1.center" timestamp="1580695205792">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1259" height="208" key="GridCell.Tab.1.center/0.0.1280.689@0.0.1280.689" timestamp="1580695205792" />
-    <state width="1259" height="208" key="GridCell.Tab.1.left" timestamp="1580695205791">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1259" height="208" key="GridCell.Tab.1.left/0.0.1280.689@0.0.1280.689" timestamp="1580695205791" />
-    <state width="1259" height="208" key="GridCell.Tab.1.right" timestamp="1580695205792">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1259" height="208" key="GridCell.Tab.1.right/0.0.1280.689@0.0.1280.689" timestamp="1580695205792" />
-    <state x="173" y="4" key="SettingsEditor" timestamp="1580611909947">
-      <screen x="63" y="0" width="1217" height="720" />
-    </state>
-    <state x="173" y="4" key="SettingsEditor/63.0.1217.720@63.0.1217.720" timestamp="1580611909947" />
-    <state x="321" y="178" key="com.intellij.ide.util.TipDialog" timestamp="1580819886974">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="321" y="178" key="com.intellij.ide.util.TipDialog/0.0.1280.689@0.0.1280.689" timestamp="1580819886974" />
-    <state x="368" y="186" key="com.intellij.ide.util.TipDialog/63.0.1217.720@63.0.1217.720" timestamp="1580671232443" />
-    <state x="440" y="267" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580828150254">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="440" y="267" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1580828150254" />
-    <state x="481" y="279" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/63.0.1217.720@63.0.1217.720" timestamp="1580642303171" />
-    <state x="0" y="291" width="1022" height="482" key="dock-window-1" timestamp="1580826216479">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="0" y="291" width="1022" height="482" key="dock-window-1/0.0.1280.689@0.0.1280.689" timestamp="1580826216479" />
+    <state x="337" y="171" key="com.intellij.ide.util.TipDialog/0.0.1280.689@0.0.1280.689" timestamp="1580836236315" />
   </component>
 </project>

@@ -9,6 +9,7 @@ def openMdb(file_name): #function to open a model data base
 class Mdb:   #class with all the input information in a file (model data base)
     models = {} #dictionary containing the different models in the file {'model_name':obj_from_class_mdl}
     jobs = {}
+    steps = {}
     def __init__(self):
         self.models['Model-1'] = Model() #iniciation of a mdb creates a standard model
     def saveAs(self,file_name):
@@ -19,6 +20,9 @@ class Mdb:   #class with all the input information in a file (model data base)
     def openMesh(self,file_name):
         self.models[self.models.keys()[0]].acis = None
         pass #Importing step model
+    def StaticStep(self,step_name):
+        self.steps[step_name] = StaticStep(step_name)
+        return self.steps[step_name]
 
 class Model:  #class of a model containing all the parts, material properties,... of a mdb
     name = None #name of the model
@@ -47,7 +51,7 @@ class Part:  #class of parts of a model
     nodes = None #Object from the class MeshNodeArray
     elements = None #Object from the class MeshElementArray
     sets = {}
-    sections ={}
+    sectionassignments = []
     seed_size = 0.0 #Seed for the mesh size
     def __init__(self,name,geometryFile=None):
         self.name = name
@@ -91,16 +95,23 @@ class Part:  #class of parts of a model
         ax = fig.add_subplot('111', projection='3d')
         ax.voxels(np.ones([depth,width,height], dtype=np.bool), facecolors=[1, 1, 1, 1], edgecolors='k')
     def Set(self,set_name,meshElementArrayObj):
-        self.sets[set_name] = Set(set_name,meshElementArrayObj)
+        self.sets[set_name] = Set(set_name,meshElementArrayObj,self.name)
         return self.sets[set_name]
     def SectionAssignment(self,set_obj,sec_name):
-        pass
+        self.sectionassignments += [SectionAssignment(set_obj,sec_name)]
+        return self.sectionassignments[-1]
+
+class SectionAssignment:
+    def __init__(self,set_obj,sec_name):
+        self.sectionName = sec_name
+        self.region = (set_obj.name,set_obj._parent_part,)
 
 class Set:
     elements = {}
-    def __init__(self,set_name,meshElementArrayObj):
+    def __init__(self,set_name,meshElementArrayObj,parent_part_name):
         self.name = set_name
         self.elements = meshElementArrayObj
+        self._parent_part = parent_part_name
 
 class MeshElementArray:
     elements = None
@@ -145,9 +156,6 @@ class MeshNode:
     def getElements(self):
         pass
 
-class Section:
-    pass
-
 class Material:  #class of materials of a model
     name = None
     def __init__(self,mat_name):
@@ -170,6 +178,10 @@ class Section:
         self.name = sec_name
         self.material = mat_name
 
+class StaticStep:
+    def __init__(self,name):
+        self.name = name
+
 class job:  #class of jobs of a model
     def __init__(self,job_name):
         self.name = job_name
@@ -177,18 +189,20 @@ class job:  #class of jobs of a model
         pass
 
 ###---------------------------------------------------------------------------------
-mdb=Mdb()
-# mdb.openMesh("C:/Users/sique/Desktop/PSU_SUP.STL")
-# model = mdb['Model-1']
-# part = model.PartFromGeometryFile()
-# part.seedPart(5)
-# part.generateMesh()
-mdl=mdb.models['Model-1']
-part=mdl.Part('Part-1')
-mdl.Material('Material-1').Elastic(((210000,0.3,),))
-mdl.HomogeneousSolidSection('Mat2Sec','Material02')
-part.uniformHexMesh(10,10,30,1)
-part.Set('Set-1',part.elements)
+if __name__=="__main__":
+    mdb=Mdb()
+    # mdb.openMesh("C:/Users/sique/Desktop/PSU_SUP.STL")
+    # model = mdb['Model-1']
+    # part = model.PartFromGeometryFile()
+    # part.seedPart(5)
+    # part.generateMesh()
+    mdl=mdb.models['Model-1']
+    part=mdl.Part('Part-1')
+    mdl.Material('Material-1').Elastic(((210000,0.3,),))
+    mdl.HomogeneousSolidSection('Section-1','Material-1')
+    part.uniformHexMesh(10,10,30,1)
+    part.SectionAssignment(part.Set('Set-1',part.elements),'Section-1')
+
 
 
 
