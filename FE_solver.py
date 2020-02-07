@@ -1,5 +1,7 @@
 import numpy as np
 import FE_classes
+from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
+import matplotlib.pyplot as plt
 import sympy as sp
 
 #Stiffness matrix construction
@@ -31,12 +33,13 @@ def solver(job_name,mdb):
                     F[3 * (n.label-1):3 * (n.label-1) + 3 ,0] +=  gen_force
             #Boundary conditions
             #u = np.empty((3 * len(p.nodes), 1))
+            rows_columns_toNull = []
             for bc in s.boundaryConditionStates.items():  # Checking each BC in the step
                 if isinstance(bc[1], FE_classes.DisplacementBCState):  # Dealing according to case
                     gen_bc = np.array([bc[1].u1,bc[1].u2 ,bc[1].u3])
                 for n in mdb.models[mdb.jobs[job_name].model].boundaryConditions[bc[0]].region.nodes:  #checking each node of the load
                     #u[3 * (n.label-1):3 * (n.label-1) + 3 ,0] +=  gen_bc #still not implemented for values != 0
-                    rows_columns_toNull = [] #getting the doF with null displacement
+                    #getting the doF with null displacement
                     for ii in range(3):
                         rows_columns_toNull += [3*(n.label-1) + ii] if gen_bc[ii]==0 else []
             #Eliminating rows and columns
@@ -44,10 +47,30 @@ def solver(job_name,mdb):
             F = np.delete(F ,rows_columns_toNull, 0)
             #Solve Ku=F
             u = np.linalg.inv(K).dot(F)
-            #Eliminatin lines and rows when u=0
+            #Assembling u again
+            uu = np.empty((3 * len(p.nodes)))
+            count = 0
+            for n in range(3 * len(p.nodes)):
+                if any([n == rct for rct in rows_columns_toNull]):
+                    uu[n] = 0
+                else:
+                    uu[n] = u[count]
+                    count += 1
+
+            scale_factor = 10
+            uu = scale_factor * uu.reshape((len(p.nodes),3))
+            fig = plt.figure()
+            ax = fig.add_subplot(111, projection='3d')
+            for n in p.nodes:
+                ax.scatter(n.coordinates[0] + uu[n.label-1,0], n.coordinates[1] + uu[n.label-1,1],
+                           n.coordinates[2] + uu[n.label-1,2], marker='o')
 
 
-    return u
+
+            #Field and history outputs
+
+
+    return uu
 
 
 def ElementStiffness(mdlObj, partObj, elementObj):

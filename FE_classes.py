@@ -1,6 +1,6 @@
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D #needed
+#import numpy as np
+#import matplotlib.pyplot as plt
+#from mpl_toolkits.mplot3d import Axes3D #needed
 import FE_solver
 
 #mdb = openMdb(path+file) 'C:\Users\sique\Desktop\QLK_Model-614-2.cae'
@@ -87,18 +87,19 @@ class Part:  #class of parts of a model
         vox = mesh.voxels
         self.nodes = MeshNodeArray([MeshNode(tuple(vert[i]),i) for i in range(vert.shape[0])])
         self.elements = MeshElementArray([MeshElement(tuple(vox[i]), i) for i in range(vox.shape[0])])
-    def uniformHexMesh(self , width , height , depth , ms=1 ):
+    def uniformHexMesh(self , w , h , d , ms):
         # Mesh simple hexahedric uniform
         #ms - mesh size
-        width //= ms   #Converting to element quantity unit
-        height //= ms
-        depth //= ms
+        width = round(w/ms)  #Converting to element quantity unit
+        height = round(h/ms)
+        depth = round(d/ms)
+        ms_w, ms_h, ms_d = w / width, h / height, d / depth
         self.nodes = MeshNodeArray([])
         count = 1
         for k in range(depth+1):
             for j in range(height+1):
                 for i in range(width+1):
-                    self.nodes += [MeshNode((i * ms, j * ms, k * ms), count)]  # Assigning coordinaates
+                    self.nodes += [MeshNode((i * ms_w, j * ms_h, k * ms_d), count)]  # Assigning coordinates
                     count += 1
         self.elements = MeshElementArray([],8)
         count = 1
@@ -114,9 +115,10 @@ class Part:  #class of parts of a model
                     connectivity = tuple(connectivity)
                     self.elements += [MeshElement(connectivity, count)]
                     count += 1
-        fig = plt.figure()
-        ax = fig.gca(projection='3d')
-        ax.voxels(np.ones([depth,width,height], dtype=np.bool), facecolors=[1, 1, 1, 1], edgecolors='k')
+        print('{} hexaedric elements created'.format(count-1))
+        #fig = plt.figure()
+        #ax = fig.gca(projection='3d')
+        #ax.voxels(np.ones([depth,width,height], dtype=np.bool), facecolors=[1, 1, 1, 1], edgecolors='k')
     def Set(self,set_name,meshElementArrayObj):
         self.sets[set_name] = Set(set_name,meshElementArrayObj,self.name)
         return self.sets[set_name]
@@ -301,7 +303,7 @@ class ModelJob:  #class of jobs of a model
         self.model = model_name
         self.mdb = mdb_obj
     def submit(self):  #function that runs the job
-        elementsstiffness,K = FE_solver.solver(self.name, self.mdb)
+        u = FE_solver.solver(self.name, self.mdb)
         return u
 
 
