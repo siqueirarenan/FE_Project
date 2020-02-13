@@ -12,7 +12,7 @@ if __name__=="__main__":
     part = mdl.Part('Part-1')
     mdl.Material('Material-1').Elastic(table = ((210000,0.3,),))
     mdl.HomogeneousSolidSection('Section-1','Material-1')
-    part.uniformHexMesh(10,10,30,2)
+    part.uniformHexMesh(10,10,30,10)
     part.SectionAssignment(part.Set('Set-1',part.elements),'Section-1')
 
     #Step and outputs

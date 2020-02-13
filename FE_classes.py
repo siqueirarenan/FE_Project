@@ -75,7 +75,6 @@ class Part:  #class of parts of a model
     elements = None #Object from the class MeshElementArray
     sets = {}
     sectionassignments = []
-    seed_size = 0.0 #Seed for the mesh size
     def __init__(self,name,geometryFile=None):
         self.name = name
         self.geometry = geometryFile
@@ -87,13 +86,14 @@ class Part:  #class of parts of a model
         vox = mesh.voxels
         self.nodes = MeshNodeArray([MeshNode(tuple(vert[i]),i) for i in range(vert.shape[0])])
         self.elements = MeshElementArray([MeshElement(tuple(vox[i]), i) for i in range(vox.shape[0])])
-    def uniformHexMesh(self , w , h , d , ms):
+
+    def uniformHexMesh(self , w , h , d , ms ):
         # Mesh simple hexahedric uniform
-        #ms - mesh size
-        width = round(w/ms)  #Converting to element quantity unit
+        width = round(w/ms)  #Calculating number of elements on each side
         height = round(h/ms)
         depth = round(d/ms)
-        ms_w, ms_h, ms_d = w / width, h / height, d / depth
+        ms_w, ms_h, ms_d = w / width, h / height, d / depth #calculating element sizes
+        #print(ms_w, ms_h, ms_d)
         self.nodes = MeshNodeArray([])
         count = 1
         for k in range(depth+1):

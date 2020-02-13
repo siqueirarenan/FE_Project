@@ -152,7 +152,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581078629658</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update">
+      <created>1581108593163</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1581108593163</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -165,10 +172,10 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="96" y="0" width="1089" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.689@0.0.1280.689" timestamp="1580837643005" />
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1581078628309">
+    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1581108591305">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1581078628309" />
+    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1581108591305" />
     <state width="270" height="442" key="Diff.GoToChangePopup" timestamp="1581030629723">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
@@ -177,10 +184,10 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="93" y="93" width="1095" height="504" key="DiffContextDialog/0.0.1280.689@0.0.1280.689" timestamp="1581032149766" />
-    <state x="421" y="101" key="FileChooserDialogImpl" timestamp="1580953418274">
+    <state x="421" y="101" key="FileChooserDialogImpl" timestamp="1581438859450">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="421" y="101" key="FileChooserDialogImpl/0.0.1280.689@0.0.1280.689" timestamp="1580953418274" />
+    <state x="421" y="101" key="FileChooserDialogImpl/0.0.1280.689@0.0.1280.689" timestamp="1581438859450" />
     <state width="1259" height="166" key="GridCell.Tab.0.bottom" timestamp="1581067318046">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
@@ -209,10 +216,10 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="337" y="171" key="com.intellij.ide.util.TipDialog/0.0.1280.689@0.0.1280.689" timestamp="1581067344628" />
-    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1581035956250">
+    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1581456371533">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1581035956250" />
+    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1581456371533" />
     <state x="303" y="10" width="672" height="678" key="search.everywhere.popup" timestamp="1580944229376">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
