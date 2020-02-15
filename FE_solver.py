@@ -3,6 +3,7 @@ import FE_classes
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 import matplotlib.pyplot as plt
 import sympy as sp
+from scipy import linalg as spln
 
 #Stiffness matrix construction
 
@@ -14,7 +15,7 @@ def solver(job_name,mdb):
         for e in p.elements:                                 #Begining of construction of K_e
             elementsstiffness[e.label] = ElementStiffness(mdl,p,e)
         #Assembly
-        K = np.empty((3*len(p.nodes),3*len(p.nodes)))
+        K = np.zeros((3*len(p.nodes),3*len(p.nodes)))
         for k_e in elementsstiffness.items():
             for m in range(p.elements.nodePerElement):
                 for n in range(p.elements.nodePerElement): #Only up half of the simmetrtic matrix is calculated
@@ -46,8 +47,10 @@ def solver(job_name,mdb):
             #Eliminating rows and columns
             K = np.delete( np.delete(K, rows_columns_toNull, 0), rows_columns_toNull, 1 )
             F = np.delete(F ,rows_columns_toNull, 0)
+            #for r in rows_columns_toNull:
+            #    K[r,r] = 1e33
             #Solve Ku=F
-            u = np.linalg.inv(K).dot(F)
+            u = spln.solve(K+0*np.eye(12),F)#,assume_a='sym')
             #Assembling u again
             uu = np.zeros((3 * len(p.nodes)))
             count = 0
@@ -57,6 +60,7 @@ def solver(job_name,mdb):
                 else:
                     uu[dof] = u[count]
                     count += 1
+            #uu=u
 
             #PLOTS (do in other file!!!)
             #Undeformed nodes showing loads and BC
@@ -74,31 +78,31 @@ def solver(job_name,mdb):
                     ax.scatter(n.coordinates[0], n.coordinates[1],
                                n.coordinates[2], marker='o', color='red')
             #Deformed nodes
-            scale_factor = 10
-            uu = scale_factor * uu.reshape((len(p.nodes),3))
+            scale_factor = 1
+            ug = scale_factor * uu.reshape((len(p.nodes),3))
             ax = fig.add_subplot(122, projection='3d')
             n_size = []
             for n in p.nodes: #Calculate the norm of the displacements
-                n_size += [(uu[n.label - 1, 0] ** 2 + uu[n.label - 1, 1] ** 2 + uu[n.label - 1, 2] ** 2) ** (0.5)]
+                n_size += [np.linalg.norm(ug[n.label - 1,:])]
             n_size /= max(n_size)
             for n in p.nodes:
-                ax.scatter(n.coordinates[0] + uu[n.label-1,0], n.coordinates[1] + uu[n.label-1,1],
-                           n.coordinates[2] + uu[n.label-1,2], marker='.', color=[0.2,0.2,0.2]) #np.array([n_size[n.label-1],0,1-n_size[n.label-1]]))
+                ax.scatter(n.coordinates[0] + ug[n.label-1,0], n.coordinates[1] + ug[n.label-1,1],
+                           n.coordinates[2] + ug[n.label-1,2], marker='.', color=[0.2,0.2,0.2]) #np.array([n_size[n.label-1],0,1-n_size[n.label-1]]))
 
             for l in s.loadStates.items():  #Marking load nodes
                 for n in mdl.loads[l[0]].region.nodes:
-                    ax.scatter(n.coordinates[0] + uu[n.label-1,0], n.coordinates[1] + uu[n.label-1,1],
-                               n.coordinates[2] + uu[n.label-1,2], marker='o', color='blue')
+                    ax.scatter(n.coordinates[0] + ug[n.label-1,0], n.coordinates[1] + ug[n.label-1,1],
+                               n.coordinates[2] + ug[n.label-1,2], marker='o', color='blue')
             for bc in s.boundaryConditionStates.items():  #Marking BC nodes
                 for n in mdl.boundaryConditions[bc[0]].region.nodes:
-                    ax.scatter(n.coordinates[0] + uu[n.label-1,0], n.coordinates[1] + uu[n.label-1,1],
-                               n.coordinates[2] + uu[n.label-1,2], marker='o', color='red')
+                    ax.scatter(n.coordinates[0] + ug[n.label-1,0], n.coordinates[1] + ug[n.label-1,1],
+                               n.coordinates[2] + ug[n.label-1,2], marker='o', color='red')
 
 
             #Field and history outputs
 
 
-    return (rows_columns_toNull,K,F,u,uu)
+    return (elementsstiffness,K,F,u,uu)
 
 
 def ElementStiffness(mdlObj, partObj, elementObj):
@@ -110,12 +114,11 @@ def ElementStiffness(mdlObj, partObj, elementObj):
                            [-1, -1, 1, 1, -1, -1, 1, 1],
                            [-1, -1, -1, -1, 1, 1, 1, 1]])
     #Jacobian inverse already subs zero
-    J_inv = np.linalg.inv( DQ.dot(u_e) )
+    J_inv = np.linalg.inv(DQ.dot(u_e))
     # Matrics constining the derivatives of N through x,y,z, already with i,j,s = 0
     dQ = np.zeros((partObj.elements.nodePerElement,3))
     for n in range(partObj.elements.nodePerElement):
         dQ[n,:] = np.array(np.matrix.transpose(J_inv.dot(DQ[:, n])))
-    print(dQ)
 
     #Strin-displacemente matrix
     strainDisplacementMatrix = np.array([[dQ[0,0], 0, 0, dQ[1,0], 0, 0, dQ[2,0], 0, 0, dQ[3,0], 0, 0, dQ[4,0], 0, 0, dQ[5,0], 0, 0, dQ[6,0], 0, 0, dQ[7,0], 0, 0],
@@ -125,7 +128,7 @@ def ElementStiffness(mdlObj, partObj, elementObj):
                       [0, dQ[0,2], dQ[0,1], 0, dQ[1,2], dQ[1,1], 0, dQ[2,2], dQ[2,1], 0, dQ[3,2], dQ[3,1], 0, dQ[4,2], dQ[4,1], 0, dQ[5,2], dQ[5,1], 0, dQ[6,2], dQ[6,1], 0, dQ[7,2], dQ[7,1]],
                       [dQ[0,2], 0, dQ[0,0], dQ[1,2], 0, dQ[1,0], dQ[2,2], 0, dQ[2,0], dQ[3,2], 0, dQ[3,0], dQ[4,2], 0, dQ[4,0], dQ[5,2], 0, dQ[5,0], dQ[6,2], 0, dQ[6,0], dQ[7,2], 0, dQ[7,0]]])
 
-    #Element material
+    #Isotropic material
     E = mdlObj.materials[elementObj.material].elastic.table[0]
     v = mdlObj.materials[elementObj.material].elastic.table[1]
     p1 = v * E / ((1 + v) * (1 - 2*v))
@@ -136,8 +139,7 @@ def ElementStiffness(mdlObj, partObj, elementObj):
                     [0, 0, 0, p2, 0, 0],
                     [0, 0, 0, 0, p2, 0],
                     [0, 0, 0, 0, 0, p2]])
-
-    K_e = 2*np.matrix.transpose(strainDisplacementMatrix).dot(E_e.dot(strainDisplacementMatrix))
+    K_e = np.matrix.transpose(strainDisplacementMatrix).dot(E_e.dot(strainDisplacementMatrix))
     return K_e
 
 
