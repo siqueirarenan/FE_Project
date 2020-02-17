@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c3d655d6-49df-4669-b60b-08516eb71071" name="Default Changelist" comment="update">
+    <list default="true" id="c3d655d6-49df-4669-b60b-08516eb71071" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Gauss.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Test_stiffnessmatrix.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FE_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_solver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Input_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Input_model.py" afterDir="false" />
@@ -54,7 +56,7 @@
       <recent name="C:\Users\sique\Desktop\FE_Project\FE_Renan_pack" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.Input_model">
+  <component name="RunManager" selected="Python.Test_stiffnessmatrix">
     <configuration name="FE (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FE_Renan_package" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -118,8 +120,30 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Test_stiffnessmatrix" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FE_Renan_package" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Test_stiffnessmatrix.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Test_stiffnessmatrix" />
         <item itemvalue="Python.Input_model" />
         <item itemvalue="Python.FE (1)" />
         <item itemvalue="Python.FE" />
@@ -165,23 +189,31 @@
       <option name="project" value="LOCAL" />
       <updated>1581554650848</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Updated version, but solve still doesnt work for the stiffness matrix">
+      <created>1581755927627</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1581755927627</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="update" />
-    <option name="LAST_COMMIT_MESSAGE" value="update" />
+    <MESSAGE value="Updated version, but solve still doesnt work for the stiffness matrix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated version, but solve still doesnt work for the stiffness matrix" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="0" width="1089" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580837643005">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="96" y="0" width="1089" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.689@0.0.1280.689" timestamp="1580837643005" />
-    <state x="297" y="0" key="CommitChangelistDialog2" timestamp="1581638564541">
+    <state x="281" y="0" key="CommitChangelistDialog2" timestamp="1581755926610">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="297" y="0" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1581638564541" />
+    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1581755926610" />
     <state width="270" height="442" key="Diff.GoToChangePopup" timestamp="1581030629723">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
@@ -194,22 +226,22 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="421" y="101" key="FileChooserDialogImpl/0.0.1280.689@0.0.1280.689" timestamp="1581438859450" />
-    <state width="1259" height="166" key="GridCell.Tab.0.bottom" timestamp="1581067318046">
+    <state width="1259" height="166" key="GridCell.Tab.0.bottom" timestamp="1581808422074">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="166" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1581067318046" />
-    <state width="1259" height="166" key="GridCell.Tab.0.center" timestamp="1581067318045">
+    <state width="1259" height="166" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1581808422074" />
+    <state width="1259" height="166" key="GridCell.Tab.0.center" timestamp="1581808422074">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="166" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1581067318045" />
-    <state width="1259" height="166" key="GridCell.Tab.0.left" timestamp="1581067318045">
+    <state width="1259" height="166" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1581808422074" />
+    <state width="1259" height="166" key="GridCell.Tab.0.left" timestamp="1581808422074">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="166" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1581067318045" />
-    <state width="1259" height="166" key="GridCell.Tab.0.right" timestamp="1581067318045">
+    <state width="1259" height="166" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1581808422074" />
+    <state width="1259" height="166" key="GridCell.Tab.0.right" timestamp="1581808422074">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="166" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1581067318045" />
+    <state width="1259" height="166" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1581808422074" />
     <state x="142" y="0" key="SettingsEditor" timestamp="1581003888034">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
@@ -226,9 +258,9 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1581456371533" />
-    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup" timestamp="1580944229376">
+    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup" timestamp="1581842802933">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup/0.0.1280.689@0.0.1280.689" timestamp="1580944229376" />
+    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup/0.0.1280.689@0.0.1280.689" timestamp="1581842802933" />
   </component>
 </project>
