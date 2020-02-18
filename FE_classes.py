@@ -116,9 +116,7 @@ class Part:  #class of parts of a model
                     self.elements += [MeshElement(connectivity, count)]
                     count += 1
         print('{} hexaedric elements created'.format(count-1))
-        #fig = plt.figure()
-        #ax = fig.gca(projection='3d')
-        #ax.voxels(np.ones([depth,width,height], dtype=np.bool), facecolors=[1, 1, 1, 1], edgecolors='k')
+        return width,height,depth
     def Set(self,set_name,meshElementArrayObj):
         self.sets[set_name] = Set(set_name,meshElementArrayObj,self.name)
         return self.sets[set_name]

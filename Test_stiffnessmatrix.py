@@ -19,65 +19,110 @@ def myInverse(A):
 
     return Ainv
 
-i,j,k = sp.symbols('i j k')
-N={}
-N[0] = (1-i)*(1-j)*(1-k)/8
-N[1] = (1+i)*(1-j)*(1-k)/8
-N[2] = (1-i)*(1+j)*(1-k)/8
-N[3] = (1+i)*(1+j)*(1-k)/8
-N[4] = (1-i)*(1-j)*(1+k)/8
-N[5] = (1+i)*(1-j)*(1+k)/8
-N[6] = (1-i)*(1+j)*(1+k)/8
-N[7] = (1+i)*(1+j)*(1+k)/8
-NN = N[0]*np.eye(3)
-for n in range(1,8):
-    NN = np.concatenate((NN,N[n]*np.eye(3)),axis=1)
-#Nodes coordenates
-x1,y1,z1 = 0,0,0#sp.symbols('x1 y1 z1')
-x2,y2,z2 = 10,0,0#sp.symbols('x2 y2 z2')
-x3,y3,z3 = 0,10,0#sp.symbols('x3 y3 z3')
-x4,y4,z4 = 10,10,0#sp.symbols('x4 y4 z4')
-x5,y5,z5 = 0,0,10#sp.symbols('x5 y5 z5')
-x6,y6,z6 = 10,0,10#sp.symbols('x6 y6 z6')
-x7,y7,z7 = 0,10,10#sp.symbols('x7 y7 z7')
-x8,y8,z8 = 10,10,10#sp.symbols('x8 y8 z8')
-c_xyz = np.array([x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8])
-c_ijk = NN.dot(c_xyz)
-#Jacobian
-J = np.array([[sp.diff(c_ijk[0],i) , sp.diff(c_ijk[1],i) , sp.diff(c_ijk[2],i)],
-              [sp.diff(c_ijk[0],j) , sp.diff(c_ijk[1],j) , sp.diff(c_ijk[2],j)],
-              [sp.diff(c_ijk[0],k) , sp.diff(c_ijk[1],k) , sp.diff(c_ijk[2],k)]])
-J_inv = myInverse(J)
-dQ=[]
-#Derivatives
-for n in range(8):
-    dNn = np.array([[sp.diff(N[n],i)],[sp.diff(N[n],j)],[sp.diff(N[n],k)]])
-    dNn_xyz = np.dot(J_inv,dNn)
-    dQ += [dNn_xyz]
-B = np.array([[dQ[0][0], 0, 0, dQ[1][0], 0, 0, dQ[2][0], 0, 0, dQ[3][0], 0, 0, dQ[4][0], 0, 0, dQ[5][0], 0, 0, dQ[6][0], 0, 0, dQ[7][0], 0, 0],
-              [0, dQ[0][1], 0, 0, dQ[1][1], 0, 0, dQ[2][1], 0, 0, dQ[3][1], 0, 0, dQ[4][1], 0, 0, dQ[5][1], 0, 0, dQ[6][1], 0, 0, dQ[7][1], 0],
-              [0, 0, dQ[0][2], 0, 0, dQ[1][2], 0, 0, dQ[2][2], 0, 0, dQ[3][2], 0, 0, dQ[4][2], 0, 0, dQ[5][2], 0, 0, dQ[6][2], 0, 0, dQ[7][2]],
-              [0, dQ[0][2], dQ[0][1], 0, dQ[1][2], dQ[1][1], 0, dQ[2][2], dQ[2][1], 0, dQ[3][2], dQ[3][1], 0, dQ[4][2], dQ[4][1], 0, dQ[5][2], dQ[5][1], 0, dQ[6][2], dQ[6][1], 0, dQ[7][2], dQ[7][1]],
-              [dQ[0][2], 0, dQ[0][0], dQ[1][2], 0, dQ[1][0], dQ[2][2], 0, dQ[2][0], dQ[3][2], 0, dQ[3][0], dQ[4][2], 0, dQ[4][0], dQ[5][2], 0, dQ[5][0], dQ[6][2], 0, dQ[6][0], dQ[7][2], 0, dQ[7][0]],
-              [dQ[0][1], dQ[0][0], 0, dQ[1][1], dQ[1][0], 0, dQ[2][1], dQ[2][0], 0, dQ[3][1],dQ[3][0], 0, dQ[4][1], dQ[4][0], 0, dQ[5][1], dQ[5][0], 0, dQ[6][1], dQ[6][0], 0, dQ[7][1], dQ[7][0], 0]])
-#Integral
-v,E = 0.3,1 #sp.symbols('v E')
-p1 = v * E / ((1 + v) * (1 - 2 * v))
-p2 = E / (2 * (1 + v))
-E_e = np.array([[p1 + 2 * p2, p1, p1, 0, 0, 0],
-                [p1, p1 + 2 * p2, p1, 0, 0, 0],
-                [p1, p1, p1 + 2 * p2, 0, 0, 0],
-                [0, 0, 0, p2, 0, 0],
-                [0, 0, 0, 0, p2, 0],
-                [0, 0, 0, 0, 0, p2]])
+#Trials with symbolic, more gaussian points...
+def ElementStiffnessOLD(mdlObj, partObj, elementObj):
+    i,j,k = sp.symbols('i j k')
+    N={}
+    N[0] = (1-i)*(1-j)*(1-k)/8
+    N[1] = (1+i)*(1-j)*(1-k)/8
+    N[2] = (1-i)*(1+j)*(1-k)/8
+    N[3] = (1+i)*(1+j)*(1-k)/8
+    N[4] = (1-i)*(1-j)*(1+k)/8
+    N[5] = (1+i)*(1-j)*(1+k)/8
+    N[6] = (1-i)*(1+j)*(1+k)/8
+    N[7] = (1+i)*(1+j)*(1+k)/8
+    NN = N[0]*np.eye(3)
+    for n in range(1,8):
+        NN = np.concatenate((NN,N[n]*np.eye(3)),axis=1)
+    #Nodes coordenates
+    c_xyz = np.array(partObj.nodes[elementObj.connectivity[0]].coordinates)  # Construction of u_e = [x1 y1 z1; x2 y2 z2; x3... ]
+    for n in elementObj.connectivity[1:]:
+        c_xyz = np.hstack([c_xyz, partObj.nodes[n].coordinates])
+    c_ijk = NN.dot(c_xyz)
+    #Jacobian
+    J = np.array([[sp.diff(c_ijk[0],i) , sp.diff(c_ijk[1],i) , sp.diff(c_ijk[2],i)],
+                  [sp.diff(c_ijk[0],j) , sp.diff(c_ijk[1],j) , sp.diff(c_ijk[2],j)],
+                  [sp.diff(c_ijk[0],k) , sp.diff(c_ijk[1],k) , sp.diff(c_ijk[2],k)]])
+    J_inv, detJ = myInverse(J)
+    dQ=[]
+    #Derivatives
+    for n in range(8):
+        dNn = np.array([[sp.diff(N[n],i)],[sp.diff(N[n],j)],[sp.diff(N[n],k)]])
+        dNn_xyz = np.dot(J_inv,dNn)
+        dQ += [dNn_xyz]
+    B = np.array([[dQ[0][0], 0, 0, dQ[1][0], 0, 0, dQ[2][0], 0, 0, dQ[3][0], 0, 0, dQ[4][0], 0, 0, dQ[5][0], 0, 0, dQ[6][0], 0, 0, dQ[7][0], 0, 0],
+                  [0, dQ[0][1], 0, 0, dQ[1][1], 0, 0, dQ[2][1], 0, 0, dQ[3][1], 0, 0, dQ[4][1], 0, 0, dQ[5][1], 0, 0, dQ[6][1], 0, 0, dQ[7][1], 0],
+                  [0, 0, dQ[0][2], 0, 0, dQ[1][2], 0, 0, dQ[2][2], 0, 0, dQ[3][2], 0, 0, dQ[4][2], 0, 0, dQ[5][2], 0, 0, dQ[6][2], 0, 0, dQ[7][2]],
+                  [0, dQ[0][2], dQ[0][1], 0, dQ[1][2], dQ[1][1], 0, dQ[2][2], dQ[2][1], 0, dQ[3][2], dQ[3][1], 0, dQ[4][2], dQ[4][1], 0, dQ[5][2], dQ[5][1], 0, dQ[6][2], dQ[6][1], 0, dQ[7][2], dQ[7][1]],
+                  [dQ[0][2], 0, dQ[0][0], dQ[1][2], 0, dQ[1][0], dQ[2][2], 0, dQ[2][0], dQ[3][2], 0, dQ[3][0], dQ[4][2], 0, dQ[4][0], dQ[5][2], 0, dQ[5][0], dQ[6][2], 0, dQ[6][0], dQ[7][2], 0, dQ[7][0]],
+                  [dQ[0][1], dQ[0][0], 0, dQ[1][1], dQ[1][0], 0, dQ[2][1], dQ[2][0], 0, dQ[3][1],dQ[3][0], 0, dQ[4][1], dQ[4][0], 0, dQ[5][1], dQ[5][0], 0, dQ[6][1], dQ[6][0], 0, dQ[7][1], dQ[7][0], 0]])
+    #Integral
+    E = mdlObj.materials[elementObj.material].elastic.table[0]
+    v = mdlObj.materials[elementObj.material].elastic.table[1]
+    p1 = v * E / ((1 + v) * (1 - 2 * v))
+    p2 = E / (2 * (1 + v))
+    E_e = np.array([[p1 + 2 * p2, p1, p1, 0, 0, 0],
+                    [p1, p1 + 2 * p2, p1, 0, 0, 0],
+                    [p1, p1, p1 + 2 * p2, 0, 0, 0],
+                    [0, 0, 0, p2, 0, 0],
+                    [0, 0, 0, 0, p2, 0],
+                    [0, 0, 0, 0, 0, p2]])
 
-K_ni = np.dot(np.matrix.transpose(B),np.dot(E_e,B))
-K = np.zeros((K_ni.shape[0],K_ni.shape[1]))
-for n1 in range(K_ni.shape[0]):
-    for n2 in range(K_ni.shape[1]):
-        p1 = K_ni[n1,n2][0].subs(i,-0.5773502691896258) + K_ni[n1,n2][0].subs(i,0.5773502691896258)
-        p2 = p1.subs(j,-0.5773502691896258) + p1.subs(j,0.5773502691896258)
-        K[n1,n2] += [p2.subs(k, -0.5773502691896258) + p2.subs(k, 0.5773502691896258)]
+    K_ni = np.dot(np.dot(np.matrix.transpose(B),np.dot(E_e,B)),detJ)
+    K = np.zeros((K_ni.shape[0],K_ni.shape[1]))
+    for n1 in range(K_ni.shape[0]):
+        for n2 in range(K_ni.shape[1]):
+            ## 3 Gauss points (25s for 1 element)
+            #p1 = (8/9)*K_ni[n1,n2][0].subs(i,0) + (5/9)*K_ni[n1,n2][0].subs(i,(3/5)**(0.5)) + (
+            #        5/9)*K_ni[n1,n2][0].subs(i,-(3/5)**(0.5))
+            #p2 = (8/9)*p1.subs(j,0) + (5/9)*p1.subs(j,(3/5)**(0.5)) + (5/9)*p1.subs(j,-(3/5)**(0.5))
+            #K[n1,n2] += [(8/9)*p2.subs(k,0) + (5/9)*p2.subs(k,(3/5)**(0.5)) + (5/9)*p2.subs(k,-(3/5)**(0.5))]
+            ## 2 Gauss points (15s)
+            #p1 = (K_ni[n1,n2][0].subs(i,-1/(3**0.5)) + K_ni[n1,n2][0].subs(i,1/(3**0.5)))
+            #p2 = (p1.subs(j,-1/(3**0.5)) + p1.subs(j,1/(3**0.5)))
+            #K[n1,n2] += [(p2.subs(k, -1/(3**0.5)) + p2.subs(k, 1/(3**0.5)))]
+            ## 1 Gauss point (3s)
+            p1 = 2*K_ni[n1,n2][0].subs(i,0)
+            p2 = 2*p1.subs(j,0)
+            K[n1,n2] += [2*p2.subs(k,0)]
+
+            K = nearestPD(K)
+
+    return K
+
+######## Method to find the closest PD matrix
+from numpy import linalg as la
+
+def nearestPD(A):
+    """Find the nearest positive-definite matrix to input
+    [1] https://www.mathworks.com/matlabcentral/fileexchange/42885-nearestspd
+    [2] N.J. Higham, "Computing a nearest symmetric positive semidefinite
+    matrix" (1988): https://doi.org/10.1016/0024-3795(88)90223-6
+    """
+    B = (A + A.T) / 2
+    _, s, V = la.svd(B)
+    H = np.dot(V.T, np.dot(np.diag(s), V))
+    A2 = (B + H) / 2
+    A3 = (A2 + A2.T) / 2
+    if isPD(A3):
+        return A3
+    spacing = np.spacing(la.norm(A))
+    I = np.eye(A.shape[0])
+    k = 1
+    while not isPD(A3):
+        mineig = np.min(np.real(la.eigvals(A3)))
+        A3 += I * (-mineig * k**2 + spacing)
+        k += 1
+    return A3
+
+def isPD(B):
+    """Returns true when input is positive-definite, via Cholesky"""
+    try:
+        _ = la.cholesky(B)
+        return True
+    except la.LinAlgError:
+        return False
+
 
 ########
 
@@ -107,3 +152,16 @@ for n1 in range(K_ni.shape[0]):
 #    u = np.linalg.inv(A) @ (F - ((K - A) @ u))
 #    er = np.linalg.norm(K @ u - F)/(np.linalg.norm(F))
 #    print(er)
+
+
+####### Importing stiffness matrix from abaqus
+import numpy as np
+
+kk = np.zeros((24,24))
+file = np.loadtxt("C:\Temp\Job-1_STIF2.mtx")
+for l in range(576):
+    kk[int(file[l,0])-1,int(file[l,1])-1] = file[l,2]
+
+K=u[1]
+kk = kk[[0,1,2,12,13,14,3,4,5,15,16,17,6,7,8,18,19,20,9,10,11,21,22,23],:]
+kk = kk[:,[0,1,2,12,13,14,3,4,5,15,16,17,6,7,8,18,19,20,9,10,11,21,22,23]]

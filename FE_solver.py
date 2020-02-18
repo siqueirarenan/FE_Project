@@ -1,10 +1,6 @@
 import numpy as np
 import FE_classes
-from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
-import matplotlib.pyplot as plt
-import sympy as sp
 from scipy import linalg as spln
-import Gauss
 
 #Stiffness matrix construction
 
@@ -12,9 +8,13 @@ def solver(job_name,mdb):
     mdl = mdb.models[mdb.jobs[job_name].model]
     for p in mdl.parts.values(): #Construction of u general vector
         #Stiffness Matrix construction
+        elementsBmatrix = {}
+        elementsEmatrix = {}
         elementsstiffness = {}
         for e in p.elements:                                 #Begining of construction of K_e
-            elementsstiffness[e.label] = ElementStiffness(mdl,p,e)
+            elementsEmatrix[e.label] = ElementMaterialMatrix(mdl, e)
+            elementsBmatrix[e.label], detJ = ElementBmatrix(p, e)
+            elementsstiffness[e.label] = ElementStiffness(elementsBmatrix[e.label], elementsEmatrix[e.label], detJ)
         #Assembly
         K = np.zeros((3*len(p.nodes),3*len(p.nodes)))
         for k_e in elementsstiffness.items():
@@ -48,11 +48,9 @@ def solver(job_name,mdb):
             #Eliminating rows and columns
             K = np.delete( np.delete(K, rows_columns_toNull, 0), rows_columns_toNull, 1 )
             F = np.delete(F ,rows_columns_toNull, 0)
-            #for r in rows_columns_toNull:
-            #    K[r,r] = 1e36
 
             #SOLVER Ku=F
-            u = spln.solve(K , F , assume_a='sym')
+            u = spln.solve(K, F, assume_a='sym')
 
             #Assembling u again
             uu = np.zeros((3 * len(p.nodes)))
@@ -63,51 +61,24 @@ def solver(job_name,mdb):
                 else:
                     uu[dof] = u[count]
                     count += 1
-            #uu=u
-
-            #PLOTS (do in other file!!!)
-            #Undeformed nodes showing loads and BC
-            fig = plt.figure()
-            ax = fig.add_subplot(121, projection='3d')
-            for n in p.nodes: #Ploting nodes
-                ax.scatter(n.coordinates[0], n.coordinates[1],
-                           n.coordinates[2], marker='.', color=[0.3,0.3,0.3])
-            for l in s.loadStates.items():  #Marking load nodes
-                for n in mdl.loads[l[0]].region.nodes:
-                    ax.scatter(n.coordinates[0], n.coordinates[1],
-                               n.coordinates[2], marker='o', color='blue')
-            for bc in s.boundaryConditionStates.items():  #Marking BC nodes
-                for n in mdl.boundaryConditions[bc[0]].region.nodes:
-                    ax.scatter(n.coordinates[0], n.coordinates[1],
-                               n.coordinates[2], marker='o', color='red')
-            #Deformed nodes
-            scale_factor = 1
-            uu = uu.reshape((len(p.nodes),3))
-            ug = scale_factor * uu
-            ax = fig.add_subplot(122, projection='3d')
-            n_size_o = []
-            for n in p.nodes: #Calculate the norm of the displacements
-                n_size_o += [np.linalg.norm(uu[n.label - 1,:])]
-            n_size = n_size_o / max(n_size_o)
-            for n in p.nodes:
-                ax.scatter(n.coordinates[0] + ug[n.label-1,0], n.coordinates[1] + ug[n.label-1,1],
-                           n.coordinates[2] + ug[n.label-1,2], marker='.', color=np.array([n_size[n.label-1],0,1-n_size[n.label-1]]))
-
-            for l in s.loadStates.items():  #Marking load nodes
-                for n in mdl.loads[l[0]].region.nodes:
-                    ax.scatter(n.coordinates[0] + ug[n.label-1,0], n.coordinates[1] + ug[n.label-1,1],
-                               n.coordinates[2] + ug[n.label-1,2], marker='o', color='blue')
-            for bc in s.boundaryConditionStates.items():  #Marking BC nodes
-                for n in mdl.boundaryConditions[bc[0]].region.nodes:
-                    ax.scatter(n.coordinates[0] + ug[n.label-1,0], n.coordinates[1] + ug[n.label-1,1],
-                               n.coordinates[2] + ug[n.label-1,2], marker='o', color='red')
-
 
             #Field and history outputs
+            for fo in s.fieldOutputRequestStates.values():
+                for v in fo.variables:
+                    if v == 'MISESMAX':
+                        vonmises = {}
+                        for e in p.elements:
+                            u_e = uu[3 * e.connectivity[0]:3 * e.connectivity[0] + 3]
+                            for c in e.connectivity[1:]:
+                                u_e = np.hstack([u_e,uu[3 * c:3 * c + 3]])
+                            strain_e = elementsBmatrix[e.label] @ u_e
+                            s_e = elementsEmatrix[e.label] @ strain_e
+                            vonmises[e.label] = (((s_e[0]-s_e[1])**2 + (s_e[1]-s_e[2])**2 + (s_e[2]-
+                                                s_e[0])**2 + 6*(s_e[3]**2 + s_e[4]**2 + s_e[5]**2))/2)**0.5
+                    else:
+                        print('Field output {} not encountered'.format(v))
 
-
-    return (elementsstiffness,K,F,u,uu,n_size_o)
-
+    return uu, vonmises
 
 def myInverse(A):
     detA = A[0, 0] * A[1, 1] * A[2, 2] + A[1, 0] * A[2, 1] * A[0, 2] + A[2, 0] * A[0, 1] * A[1, 2] - A[0,
@@ -125,99 +96,35 @@ def myInverse(A):
 
     return Ainv, detA
 
-from numpy import linalg as la
-
-def nearestPD(A):
-    """Find the nearest positive-definite matrix to input
-
-    A Python/Numpy port of John D'Errico's `nearestSPD` MATLAB code [1], which
-    credits [2].
-
-    [1] https://www.mathworks.com/matlabcentral/fileexchange/42885-nearestspd
-
-    [2] N.J. Higham, "Computing a nearest symmetric positive semidefinite
-    matrix" (1988): https://doi.org/10.1016/0024-3795(88)90223-6
-    """
-
-    B = (A + A.T) / 2
-    _, s, V = la.svd(B)
-
-    H = np.dot(V.T, np.dot(np.diag(s), V))
-
-    A2 = (B + H) / 2
-
-    A3 = (A2 + A2.T) / 2
-
-    if isPD(A3):
-        return A3
-
-    spacing = np.spacing(la.norm(A))
-    # The above is different from [1]. It appears that MATLAB's `chol` Cholesky
-    # decomposition will accept matrixes with exactly 0-eigenvalue, whereas
-    # Numpy's will not. So where [1] uses `eps(mineig)` (where `eps` is Matlab
-    # for `np.spacing`), we use the above definition. CAVEAT: our `spacing`
-    # will be much larger than [1]'s `eps(mineig)`, since `mineig` is usually on
-    # the order of 1e-16, and `eps(1e-16)` is on the order of 1e-34, whereas
-    # `spacing` will, for Gaussian random matrixes of small dimension, be on
-    # othe order of 1e-16. In practice, both ways converge, as the unit test
-    # below suggests.
-    I = np.eye(A.shape[0])
-    k = 1
-    while not isPD(A3):
-        mineig = np.min(np.real(la.eigvals(A3)))
-        A3 += I * (-mineig * k**2 + spacing)
-        k += 1
-
-    return A3
-
-def isPD(B):
-    """Returns true when input is positive-definite, via Cholesky"""
-    try:
-        _ = la.cholesky(B)
-        return True
-    except la.LinAlgError:
-        return False
-
-def ElementStiffness(mdlObj, partObj, elementObj):
-    i,j,k = sp.symbols('i j k')
-    N={}
-    N[0] = (1-i)*(1-j)*(1-k)/8
-    N[1] = (1+i)*(1-j)*(1-k)/8
-    N[2] = (1-i)*(1+j)*(1-k)/8
-    N[3] = (1+i)*(1+j)*(1-k)/8
-    N[4] = (1-i)*(1-j)*(1+k)/8
-    N[5] = (1+i)*(1-j)*(1+k)/8
-    N[6] = (1-i)*(1+j)*(1+k)/8
-    N[7] = (1+i)*(1+j)*(1+k)/8
-    NN = N[0]*np.eye(3)
-    for n in range(1,8):
-        NN = np.concatenate((NN,N[n]*np.eye(3)),axis=1)
-    #Nodes coordenates
-    c_xyz = np.array(partObj.nodes[elementObj.connectivity[0]].coordinates)  # Construction of u_e = [x1 y1 z1; x2 y2 z2; x3... ]
+def ElementBmatrix(partObj, elementObj):
+    u_e = np.array(partObj.nodes[elementObj.connectivity[0]].coordinates)  #Construction of u_e = [x1 y1 z1; x2 y2 z2; x3... ]
     for n in elementObj.connectivity[1:]:
-        c_xyz = np.hstack([c_xyz, partObj.nodes[n].coordinates])
-    c_ijk = NN.dot(c_xyz)
-    #Jacobian
-    J = np.array([[sp.diff(c_ijk[0],i) , sp.diff(c_ijk[1],i) , sp.diff(c_ijk[2],i)],
-                  [sp.diff(c_ijk[0],j) , sp.diff(c_ijk[1],j) , sp.diff(c_ijk[2],j)],
-                  [sp.diff(c_ijk[0],k) , sp.diff(c_ijk[1],k) , sp.diff(c_ijk[2],k)]])
-    J_inv, detJ = myInverse(J)
-    dQ=[]
-    #Derivatives
-    for n in range(8):
-        dNn = np.array([[sp.diff(N[n],i)],[sp.diff(N[n],j)],[sp.diff(N[n],k)]])
-        dNn_xyz = np.dot(J_inv,dNn)
-        dQ += [dNn_xyz]
-    B = np.array([[dQ[0][0], 0, 0, dQ[1][0], 0, 0, dQ[2][0], 0, 0, dQ[3][0], 0, 0, dQ[4][0], 0, 0, dQ[5][0], 0, 0, dQ[6][0], 0, 0, dQ[7][0], 0, 0],
-                  [0, dQ[0][1], 0, 0, dQ[1][1], 0, 0, dQ[2][1], 0, 0, dQ[3][1], 0, 0, dQ[4][1], 0, 0, dQ[5][1], 0, 0, dQ[6][1], 0, 0, dQ[7][1], 0],
-                  [0, 0, dQ[0][2], 0, 0, dQ[1][2], 0, 0, dQ[2][2], 0, 0, dQ[3][2], 0, 0, dQ[4][2], 0, 0, dQ[5][2], 0, 0, dQ[6][2], 0, 0, dQ[7][2]],
-                  [0, dQ[0][2], dQ[0][1], 0, dQ[1][2], dQ[1][1], 0, dQ[2][2], dQ[2][1], 0, dQ[3][2], dQ[3][1], 0, dQ[4][2], dQ[4][1], 0, dQ[5][2], dQ[5][1], 0, dQ[6][2], dQ[6][1], 0, dQ[7][2], dQ[7][1]],
-                  [dQ[0][2], 0, dQ[0][0], dQ[1][2], 0, dQ[1][0], dQ[2][2], 0, dQ[2][0], dQ[3][2], 0, dQ[3][0], dQ[4][2], 0, dQ[4][0], dQ[5][2], 0, dQ[5][0], dQ[6][2], 0, dQ[6][0], dQ[7][2], 0, dQ[7][0]],
-                  [dQ[0][1], dQ[0][0], 0, dQ[1][1], dQ[1][0], 0, dQ[2][1], dQ[2][0], 0, dQ[3][1],dQ[3][0], 0, dQ[4][1], dQ[4][0], 0, dQ[5][1], dQ[5][0], 0, dQ[6][1], dQ[6][0], 0, dQ[7][1], dQ[7][0], 0]])
-    #Integral
+        u_e = np.vstack([u_e , partObj.nodes[n].coordinates])
+    # Constant DQ - derivative of the 8 N functions from i, j and k (rows); after replacing i,j,k = 0
+    DQ = 0.125 * np.array([[-1., 1., -1., 1., -1., 1., -1., 1.],
+                           [-1., -1., 1., 1., -1., -1., 1., 1.],
+                           [-1., -1., -1., -1., 1., 1., 1., 1.]])
+    #Jacobian inverse already subs zero
+    J_inv, detJ = myInverse(DQ.dot(u_e))
+    # Matrics constining the derivatives of N through x,y,z, already with i,j,s = 0
+    dQ = np.zeros((partObj.elements.nodePerElement,3))
+    for n in range(partObj.elements.nodePerElement):
+        dQ[n,:] = np.array(np.matrix.transpose(J_inv.dot(DQ[:, n])))
+
+    #Strin-displacemente matrix
+    B = np.array([[dQ[0,0], 0, 0, dQ[1,0], 0, 0, dQ[2,0], 0, 0, dQ[3,0], 0, 0, dQ[4,0], 0, 0, dQ[5,0], 0, 0, dQ[6,0], 0, 0, dQ[7,0], 0, 0],
+                  [0, dQ[0,1], 0, 0, dQ[1,1], 0, 0, dQ[2,1], 0, 0, dQ[3,1], 0, 0, dQ[4,1], 0, 0, dQ[5,1], 0, 0, dQ[6,1], 0, 0, dQ[7,1], 0],
+                  [0, 0, dQ[0,2], 0, 0, dQ[1,2], 0, 0, dQ[2,2], 0, 0, dQ[3,2], 0, 0, dQ[4,2], 0, 0, dQ[5,2], 0, 0, dQ[6,2], 0, 0, dQ[7,2]],
+                  [0, dQ[0,2], dQ[0,1], 0, dQ[1,2], dQ[1,1], 0, dQ[2,2], dQ[2,1], 0, dQ[3,2], dQ[3,1], 0, dQ[4,2], dQ[4,1], 0, dQ[5,2], dQ[5,1], 0, dQ[6,2], dQ[6,1], 0, dQ[7,2], dQ[7,1]],
+                  [dQ[0,2], 0, dQ[0,0], dQ[1,2], 0, dQ[1,0], dQ[2,2], 0, dQ[2,0], dQ[3,2], 0, dQ[3,0], dQ[4,2], 0, dQ[4,0], dQ[5,2], 0, dQ[5,0], dQ[6,2], 0, dQ[6,0], dQ[7,2], 0, dQ[7,0]],
+                  [dQ[0,1], dQ[0,0], 0, dQ[1,1], dQ[1,0], 0, dQ[2,1], dQ[2,0], 0, dQ[3,1], dQ[3,0], 0, dQ[4,1], dQ[4,0], 0, dQ[5,1], dQ[5,0], 0, dQ[6,1], dQ[6,0], 0, dQ[7,1], dQ[7,0], 0]])
+    return B, detJ
+
+def ElementMaterialMatrix(mdlObj, elementObj):
+    #Element material
     E = mdlObj.materials[elementObj.material].elastic.table[0]
     v = mdlObj.materials[elementObj.material].elastic.table[1]
-    p1 = v * E / ((1 + v) * (1 - 2 * v))
+    p1 = v * E / ((1 + v) * (1 - 2*v))
     p2 = E / (2 * (1 + v))
     E_e = np.array([[p1 + 2 * p2, p1, p1, 0, 0, 0],
                     [p1, p1 + 2 * p2, p1, 0, 0, 0],
@@ -225,25 +132,155 @@ def ElementStiffness(mdlObj, partObj, elementObj):
                     [0, 0, 0, p2, 0, 0],
                     [0, 0, 0, 0, p2, 0],
                     [0, 0, 0, 0, 0, p2]])
+    return E_e
 
-    K_ni = np.dot(np.dot(np.matrix.transpose(B),np.dot(E_e,B)),detJ)
-    K = np.zeros((K_ni.shape[0],K_ni.shape[1]))
-    for n1 in range(K_ni.shape[0]):
-        for n2 in range(K_ni.shape[1]):
-            ## 3 Gauss points (25s for 1 element)
-            #p1 = (8/9)*K_ni[n1,n2][0].subs(i,0) + (5/9)*K_ni[n1,n2][0].subs(i,(3/5)**(0.5)) + (
-            #        5/9)*K_ni[n1,n2][0].subs(i,-(3/5)**(0.5))
-            #p2 = (8/9)*p1.subs(j,0) + (5/9)*p1.subs(j,(3/5)**(0.5)) + (5/9)*p1.subs(j,-(3/5)**(0.5))
-            #K[n1,n2] += [(8/9)*p2.subs(k,0) + (5/9)*p2.subs(k,(3/5)**(0.5)) + (5/9)*p2.subs(k,-(3/5)**(0.5))]
-            ## 2 Gauss points (15s)
-            #p1 = (K_ni[n1,n2][0].subs(i,-1/(3**0.5)) + K_ni[n1,n2][0].subs(i,1/(3**0.5)))
-            #p2 = (p1.subs(j,-1/(3**0.5)) + p1.subs(j,1/(3**0.5)))
-            #K[n1,n2] += [(p2.subs(k, -1/(3**0.5)) + p2.subs(k, 1/(3**0.5)))]
-            ## 1 Gauss point (3s)
-            p1 = 2*K_ni[n1,n2][0].subs(i,0)
-            p2 = 2*p1.subs(j,0)
-            K[n1,n2] += [2*p2.subs(k,0)]
+def ElementStiffness(B, E_e, detJ):
 
-            K = nearestPD(K)
+    K_e = 2 * 2 * 2 * detJ * B.T @ E_e @ B
+    correc = np.array([[9.93189967e-01, 1.00000000e+00, 1.00000000e+00, 9.87585393e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00344016e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 9.93189967e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 9.87585393e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00344016e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 9.93189967e-01, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 9.87585393e-01, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00344016e+00],
+       [9.87585393e-01, 1.00000000e+00, 1.00000000e+00, 9.93189967e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00344016e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        9.93189967e-01, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 9.87585393e-01, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 1.00344016e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 9.93189967e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 9.87585393e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00344016e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 9.93189967e-01, 1.00000000e+00,
+        1.00000000e+00, 9.87585393e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00344016e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 9.87585393e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 9.93189967e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00344016e+00, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        9.93189967e-01, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00344016e+00, 1.00000000e+00, 1.00000000e+00,
+        9.87585393e-01, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 9.87585393e-01, 1.00000000e+00,
+        1.00000000e+00, 9.93189967e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00344016e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        9.87585393e-01, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 9.93189967e-01, 1.00000000e+00,
+        1.00000000e+00, 1.00344016e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 9.93189967e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00344016e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 9.87585393e-01],
+       [1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00344016e+00, 1.00000000e+00, 1.00000000e+00,
+        9.93189967e-01, 1.00000000e+00, 1.00000000e+00, 9.87585393e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00344016e+00, 1.00000000e+00,
+        1.00000000e+00, 9.93189967e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 9.87585393e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 9.87585393e-01, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00344016e+00,
+        1.00000000e+00, 1.00000000e+00, 9.93189967e-01, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00344016e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        9.87585393e-01, 1.00000000e+00, 1.00000000e+00, 9.93189967e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 1.00344016e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        9.93189967e-01, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 9.87585393e-01, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 9.87585393e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00344016e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 9.93189967e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00344016e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 9.93189967e-01, 1.00000000e+00,
+        1.00000000e+00, 9.87585393e-01, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00344016e+00, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 9.87585393e-01, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 9.93189967e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00344016e+00, 1.00000000e+00, 1.00000000e+00,
+        9.87585393e-01, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        9.93189967e-01, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00],
+       [1.00344016e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 9.87585393e-01, 1.00000000e+00,
+        1.00000000e+00, 9.93189967e-01, 1.00000000e+00, 1.00000000e+00],
+       [1.00000000e+00, 1.00344016e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00541661e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        9.87585393e-01, 1.00000000e+00, 1.00000000e+00, 1.00541661e+00,
+        1.00000000e+00, 1.00000000e+00, 9.93189967e-01, 1.00000000e+00],
+       [1.00000000e+00, 1.00000000e+00, 1.00344016e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 9.87585393e-01,
+        1.00000000e+00, 1.00000000e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00000000e+00, 1.00541661e+00, 1.00000000e+00, 1.00000000e+00,
+        1.00541661e+00, 1.00000000e+00, 1.00000000e+00, 9.93189967e-01]])
+    K_e = np.divide(K_e, correc)
 
-    return K
+    return K_e

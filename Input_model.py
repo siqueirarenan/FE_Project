@@ -1,4 +1,4 @@
-import FE_classes
+import FE_classes, FE_Plots
 import time
 
 
@@ -12,34 +12,28 @@ if __name__=="__main__":
     part = mdl.Part('Part-1')
     mdl.Material('Material-1').Elastic(table = ((1.0,0.3,),))
     mdl.HomogeneousSolidSection('Section-1','Material-1')
-    part.uniformHexMesh(10,10,10,10)
+    w,h,d = part.uniformHexMesh(10,10,30,1)
     part.SectionAssignment(part.Set('Set-1',part.elements),'Section-1')
 
     #Step and outputs
-    mdl.StaticStep('Step-1')
+    step = mdl.StaticStep('Step-1')
     mdl.FieldOutputRequest('FieldOut-1', 'Step-1', variables=('MISESMAX','ELEDEN','EVOL', ))
 
     #Load and boundary conditions
     regL = part.NodeRegionFromFunction(lambda x, y, z: z > -0.001 and z < 0.001 and y > -0.0001 and y < 0.0001)
     mdl.ConcentratedForce('Load-1','Step-1',region = regL,cf1 = 0,cf2 = -1,cf3 = 0)
-    regBC = part.NodeRegionFromFunction(lambda x, y, z: z>9.999 and z<10.001)
+    regBC = part.NodeRegionFromFunction(lambda x, y, z: z>29.999 and z<30.001)
     mdl.DisplacementBC('BC-1','Step-1',region = regBC,u1=0,u2=0,u3=0) #urs not implemented to make sense, only zero allowed!!!
 
     #Job
-    u = mdb.Job('Job-1','Model-1').submit()
+    resuts = mdb.Job('Job-1','Model-1').submit()
+
+    #Plots
+    FE_Plots.undeformedNodePlot(mdl, part, step)
+    #FE_Plots.deformedNodePlot(mdl, part, step, resuts[0], scale_factor=1)
+    FE_Plots.vonMisesHexMeshPlot(w,h,d,resuts[1])
 
 
     print(time.time() - t_i)
 
 #execfile('C:/Users/sique/Desktop/FE_Project/FE.py')
-
-import numpy as np
-
-kk = np.zeros((24,24))
-file = np.loadtxt("C:\Temp\Job-1_STIF2.mtx")
-for l in range(576):
-    kk[int(file[l,0])-1,int(file[l,1])-1] = file[l,2]
-
-K=u[1]
-kk = kk[[0,1,2,12,13,14,3,4,5,15,16,17,6,7,8,18,19,20,9,10,11,21,22,23],:]
-kk = kk[:,[0,1,2,12,13,14,3,4,5,15,16,17,6,7,8,18,19,20,9,10,11,21,22,23]]
