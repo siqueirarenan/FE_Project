@@ -1,6 +1,7 @@
 import numpy as np
 import FE_classes
 from scipy import linalg as spln
+import pickle
 
 #Stiffness matrix construction
 
@@ -48,10 +49,8 @@ def solver(job_name,mdb):
             #Eliminating rows and columns
             K = np.delete( np.delete(K, rows_columns_toNull, 0), rows_columns_toNull, 1 )
             F = np.delete(F ,rows_columns_toNull, 0)
-
             #SOLVER Ku=F
             u = spln.solve(K, F, assume_a='sym')
-
             #Assembling u again
             uu = np.zeros((3 * len(p.nodes)))
             count = 0
@@ -61,24 +60,38 @@ def solver(job_name,mdb):
                 else:
                     uu[dof] = u[count]
                     count += 1
+            uu = uu.reshape((len(p.nodes), 3))
+
+            ## ODB creation
+            odb = FE_classes.Odb(job_name)
+            frame = odb.Step(s.name.upper()).Frame()
+            _ = frame.FieldOutput('U').values.NodeArray(uu)
+            instance = odb.rootAssembly.Instance(p.name.upper() + '-1',p)
+            for sets in instance.obj.sets.values(): #Distributing Mdb sets into Odb sets
+                if len(sets.elements) > 0:
+                    instance.ElementSet(sets.name.upper(),sets.elements)
 
             #Field and history outputs
             for fo in s.fieldOutputRequestStates.values():
                 for v in fo.variables:
                     if v == 'MISESMAX':
-                        vonmises = {}
+                        vonmises = []
                         for e in p.elements:
-                            u_e = uu[3 * e.connectivity[0]:3 * e.connectivity[0] + 3]
+                            u_e = uu[e.connectivity[0]]
                             for c in e.connectivity[1:]:
-                                u_e = np.hstack([u_e,uu[3 * c:3 * c + 3]])
+                                u_e = np.hstack([u_e,uu[c]])
                             strain_e = elementsBmatrix[e.label] @ u_e
                             s_e = elementsEmatrix[e.label] @ strain_e
-                            vonmises[e.label] = (((s_e[0]-s_e[1])**2 + (s_e[1]-s_e[2])**2 + (s_e[2]-
-                                                s_e[0])**2 + 6*(s_e[3]**2 + s_e[4]**2 + s_e[5]**2))/2)**0.5
+                            vonmises += [(((s_e[0]-s_e[1])**2 + (s_e[1]-s_e[2])**2 + (s_e[2]-
+                                                s_e[0])**2 + 6*(s_e[3]**2 + s_e[4]**2 + s_e[5]**2))/2)**0.5]
+                            frame.FieldOutput('MISESMAX').values.ElementArray(vonmises)
+                    if v == 'ESEDEN':
+                        pass
                     else:
-                        print('Field output {} not encountered'.format(v))
+                        print('Field output {} not found'.format(v))
 
-    return uu, vonmises
+    with open(job_name + '.odb', 'wb') as output:
+        pickle.dump(odb, output, pickle.HIGHEST_PROTOCOL)
 
 def myInverse(A):
     detA = A[0, 0] * A[1, 1] * A[2, 2] + A[1, 0] * A[2, 1] * A[0, 2] + A[2, 0] * A[0, 1] * A[1, 2] - A[0,

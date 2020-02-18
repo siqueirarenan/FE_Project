@@ -2,13 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c3d655d6-49df-4669-b60b-08516eb71071" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/FE_Plots.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Job-1.odb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FE_Plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_Plots.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FE_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_classes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FE_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Gauss.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/Input_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Input_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test_stiffnessmatrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test_stiffnessmatrix.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +23,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1XLrCQaVHngPrUfsfQYJ6NmInsF" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -206,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1581944588166</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Working version for displacement and Von Mises stress">
+      <created>1582002516372</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1582002516373</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -214,7 +221,8 @@
     <MESSAGE value="update" />
     <MESSAGE value="Updated version, but solve still doesnt work for the stiffness matrix" />
     <MESSAGE value="Trying to solve with symbolic methods, more point in Gauss integration, iterative solution, ajustment of non-positive definite matrix" />
-    <option name="LAST_COMMIT_MESSAGE" value="Trying to solve with symbolic methods, more point in Gauss integration, iterative solution, ajustment of non-positive definite matrix" />
+    <MESSAGE value="Working version for displacement and Von Mises stress" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working version for displacement and Von Mises stress" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="0" width="1089" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580837643005">
@@ -225,10 +233,10 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="371" y="93" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.689@0.0.1280.689" timestamp="1581983722150" />
-    <state x="281" y="0" key="CommitChangelistDialog2" timestamp="1581944584774">
+    <state x="83" y="0" key="CommitChangelistDialog2" timestamp="1582002513213">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1581944584774" />
+    <state x="83" y="0" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1582002513213" />
     <state width="270" height="442" key="Diff.GoToChangePopup" timestamp="1581030629723">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
@@ -261,6 +269,10 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.689@0.0.1280.689" timestamp="1581003888034" />
+    <state x="233" y="79" key="Vcs.Push.Dialog.v2" timestamp="1582002534205">
+      <screen x="0" y="0" width="1280" height="689" />
+    </state>
+    <state x="233" y="79" key="Vcs.Push.Dialog.v2/0.0.1280.689@0.0.1280.689" timestamp="1582002534205" />
     <state x="170" y="51" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1" timestamp="1581030535770">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
@@ -269,13 +281,13 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="337" y="171" key="com.intellij.ide.util.TipDialog/0.0.1280.689@0.0.1280.689" timestamp="1581067344628" />
-    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1581456371533">
+    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582033247660">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1581456371533" />
-    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup" timestamp="1581842802933">
+    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1582033247660" />
+    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup" timestamp="1582007121348">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup/0.0.1280.689@0.0.1280.689" timestamp="1581842802933" />
+    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup/0.0.1280.689@0.0.1280.689" timestamp="1582007121348" />
   </component>
 </project>

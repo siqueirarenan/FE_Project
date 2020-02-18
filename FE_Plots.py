@@ -19,9 +19,9 @@ def undeformedNodePlot(mdl, p, s):
                        n.coordinates[2], marker='o', color='red')
 
 # Deformed nodes
-def deformedNodePlot(mdl, p, s, uu, scale_factor=1):
+def deformedNodePlot(mdl, p, s, odb, scale_factor=1):
     fig = plt.figure()
-    uu = uu.reshape((len(p.nodes), 3))
+    uu = odb.steps[s.name].frames[-1].fieldOutputs['U'].values.original_data
     ug = scale_factor * uu
     ax = fig.add_subplot(111, projection='3d')
     n_size_o = []
@@ -37,8 +37,9 @@ def deformedNodePlot(mdl, p, s, uu, scale_factor=1):
             ax.scatter(n.coordinates[0] + ug[n.label - 1, 0], n.coordinates[1] + ug[n.label - 1, 1],
                        n.coordinates[2] + ug[n.label - 1, 2], marker='o', color='red')
 
-def vonMisesHexMeshPlot(w,h,d,vonmises):
+def vonMisesHexMeshPlot(w,h,d,s,odb):
     from matplotlib.colors import to_hex
+    vonmises = odb.steps[s.name].frames[-1].fieldOutputs['MISESMAX'].values.original_data
     colornew = []
     for i in range(256):
         c = 2 * i / 256 - 1
@@ -59,8 +60,8 @@ def vonMisesHexMeshPlot(w,h,d,vonmises):
             r = (((c - 0.8) / (1 - 0.8)) * (0.8 - 1)) + 1
             b, g = 0, 0
         colornew += [[r, g, b]]
-    vm = np.array([list(vonmises.values())])
-    vm = np.divide(vm,max(max(vm)))
+    vm = np.array(vonmises)
+    vm = np.divide(vm,max(vm))
     vm = vm.reshape((d,h,w))
     color = np.empty((d,h,w), dtype = 'object')
     for x in range(vm.shape[0]):

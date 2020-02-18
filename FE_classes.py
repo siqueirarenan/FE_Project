@@ -2,10 +2,16 @@
 #import matplotlib.pyplot as plt
 #from mpl_toolkits.mplot3d import Axes3D #needed
 import FE_solver
+import pickle
 
 #mdb = openMdb(path+file) 'C:\Users\sique\Desktop\QLK_Model-614-2.cae'
 def openMdb(file_name): #function to open a model data base
     pass
+
+def openOdb(file_name):
+    with open(file_name, 'rb') as input:
+        odb = pickle.load(input)
+    return odb
 
 class Mdb:   #class with all the input information in a file (model data base)
     models = {} #dictionary containing the different models in the file {'model_name':obj_from_class_mdl}
@@ -182,6 +188,7 @@ class MeshElement:
         self.connectivity = connectivity
         self.label = label
     def getAdjacentElements(self):
+        #!!!
         pass
     def setMaterial(self,mat_name):
         self.material = mat_name
@@ -302,6 +309,113 @@ class ModelJob:  #class of jobs of a model
         self.mdb = mdb_obj
     def submit(self):  #function that runs the job
         u = FE_solver.solver(self.name, self.mdb)
-        return u
+    def waitForCompletion(self):
+        pass
 
+class Odb:
+    steps = {}
+    def __init__(self,name):
+        self.name = name
+        self.rootAssembly = OdbAssembly()
+    def Step(self,name):
+        self.steps[name] = OdbStep(name)
+        return self.steps[name]
+    def save(self):
+        with open(self.name + '.odb', 'wb') as output:
+            pickle.dump(self, output, pickle.HIGHEST_PROTOCOL)
+    def close(self):
+        f = open(self.name + '.odb', 'rb')
+        f.close()
 
+class OdbStep:
+    frames = []
+    def __init__(self,name):
+        self.name = name
+    def Frame(self):
+        self.frames += [OdbFrame()]
+        return self.frames[-1]
+
+SCALAR = None
+
+class OdbFrame:
+    fieldOutputs = {}
+    def __init__(self):
+        pass
+    def FieldOutput(self,name, description = None, type = SCALAR):
+        self.fieldOutputs[name] = FieldOutput(name,description,type)
+        return self.fieldOutputs[name]
+
+WHOLE_ELEMENT = None
+
+class FieldOutput:
+    def __init__(self,name,description,type):
+        self.name = name
+        self.values = FieldValueArray()
+        self.description = description
+        self.type = type
+    def addData(self,position, instance, labels, data):
+        self.values.ElementArray(data,labels)
+
+class FieldValueArray:
+    def __init__(self):
+        self.original_data = None
+    def NodeArray(self,orderedfieldvalues,labels=0):
+        self.fieldvalues = []
+        self.original_data = orderedfieldvalues
+        if labels == 0:
+            labels = list(range(len(orderedfieldvalues)))
+        count = 0
+        for i in orderedfieldvalues:
+            self.fieldvalues += [FieldValue(labels[count]).NodeData(i)]
+            count += 1
+        return self
+    def ElementArray(self,orderedfieldvalues,labels=0):
+        self.fieldvalues = []
+        self.original_data = orderedfieldvalues
+        if labels == 0:
+            labels = list(range(len(orderedfieldvalues)))
+        count = 0
+        for i in orderedfieldvalues:
+            self.fieldvalues += [FieldValue(labels[count]).ElementData(i)]
+            count += 1
+        return self
+    def __getitem__(self, item):
+        return self.fieldvalues[item]
+
+class FieldValue:
+    def __init__(self,name):
+        self.name = name
+    def NodeData(self, data):
+        self.data = data
+        self.nodeLabel = self.name
+        return self
+    def ElementData(self, data):
+        self.data = data
+        self.elementLabel = self.name
+        return self
+
+class OdbAssembly:
+    def __init__(self):
+        self.instances = {}
+        self.elements = {}
+        self.nodes = {}
+    def Instance(self,name,obj = None):
+        self.instances[name] = OdbInstance(name,obj)
+        return self.instances[name]
+
+class OdbInstance():
+    def __init__(self,name,obj):
+        self.name = name
+        self.obj = obj
+        self.elementSets = {}
+        self.nodeSets = {}
+    def ElementSet(self,name,meshArrayObj):
+        self.elementSets[name] = OdbSet(name,meshArrayObj)
+    def NodeSet(self,name,meshArrayObj):
+        self.nodeSets[name] = OdbSet(name,meshArrayObj)
+
+class OdbSet:
+    def __init__(self,name,meshArrayObj):
+        self.name = name
+        self.elements = meshArrayObj if isinstance(meshArrayObj,MeshElementArray) else None
+        self.nodes = meshArrayObj if isinstance(meshArrayObj,MeshNodeArray) else None
