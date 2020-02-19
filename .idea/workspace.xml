@@ -2,12 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c3d655d6-49df-4669-b60b-08516eb71071" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Job-1.odb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FE_Plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_Plots.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FE_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_classes.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FE_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_solver.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Input_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/Input_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Job-1.odb" beforeDir="false" afterPath="$PROJECT_DIR$/Job-1.odb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Test_stiffnessmatrix.py" beforeDir="false" afterPath="$PROJECT_DIR$/Test_stiffnessmatrix.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -213,7 +214,14 @@
       <option name="project" value="LOCAL" />
       <updated>1582002516373</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Output data-base classes created">
+      <created>1582033303477</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1582033303477</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -222,7 +230,8 @@
     <MESSAGE value="Updated version, but solve still doesnt work for the stiffness matrix" />
     <MESSAGE value="Trying to solve with symbolic methods, more point in Gauss integration, iterative solution, ajustment of non-positive definite matrix" />
     <MESSAGE value="Working version for displacement and Von Mises stress" />
-    <option name="LAST_COMMIT_MESSAGE" value="Working version for displacement and Von Mises stress" />
+    <MESSAGE value="Output data-base classes created" />
+    <option name="LAST_COMMIT_MESSAGE" value="Output data-base classes created" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="0" width="1089" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1580837643005">
@@ -233,10 +242,10 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="371" y="93" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.689@0.0.1280.689" timestamp="1581983722150" />
-    <state x="83" y="0" key="CommitChangelistDialog2" timestamp="1582002513213">
+    <state x="83" y="0" key="CommitChangelistDialog2" timestamp="1582033300748">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="83" y="0" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1582002513213" />
+    <state x="83" y="0" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1582033300748" />
     <state width="270" height="442" key="Diff.GoToChangePopup" timestamp="1581030629723">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
@@ -269,10 +278,10 @@
       <screen x="0" y="0" width="1280" height="689" />
     </state>
     <state x="142" y="0" key="SettingsEditor/0.0.1280.689@0.0.1280.689" timestamp="1581003888034" />
-    <state x="233" y="79" key="Vcs.Push.Dialog.v2" timestamp="1582002534205">
+    <state x="233" y="79" key="Vcs.Push.Dialog.v2" timestamp="1582033311139">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="233" y="79" key="Vcs.Push.Dialog.v2/0.0.1280.689@0.0.1280.689" timestamp="1582002534205" />
+    <state x="233" y="79" key="Vcs.Push.Dialog.v2/0.0.1280.689@0.0.1280.689" timestamp="1582033311139" />
     <state x="170" y="51" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1" timestamp="1581030535770">
       <screen x="0" y="0" width="1280" height="689" />
     </state>

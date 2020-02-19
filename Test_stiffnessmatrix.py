@@ -165,3 +165,16 @@ for l in range(576):
 K=u[1]
 kk = kk[[0,1,2,12,13,14,3,4,5,15,16,17,6,7,8,18,19,20,9,10,11,21,22,23],:]
 kk = kk[:,[0,1,2,12,13,14,3,4,5,15,16,17,6,7,8,18,19,20,9,10,11,21,22,23]]
+
+### Alterntive to calculate element compliance
+if v == 'ESEDEN2':
+    eseden2 = []
+    for e in p.elements:
+        u_e = []
+        for c in e.connectivity:
+            u_e = np.hstack([u_e, uu[c]])
+        strain_e = elementsBmatrix[e.label] @ u_e
+        s_e = elementsEmatrix[e.label] @ strain_e
+        eseden2 += [(s_e[0] * strain_e[0] + s_e[1] * strain_e[1] + s_e[2] * strain_e[2] +
+                     2 * s_e[3] * strain_e[3] + 2 * s_e[4] * strain_e[4] + 2 * s_e[5] * strain_e[5]) / 2]
+        frame.FieldOutput('ESEDEN2').values.ElementArray(eseden2)

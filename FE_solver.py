@@ -64,31 +64,52 @@ def solver(job_name,mdb):
 
             ## ODB creation
             odb = FE_classes.Odb(job_name)
+            initial_frame = odb.Step(s.name.upper()).Frame()
             frame = odb.Step(s.name.upper()).Frame()
             _ = frame.FieldOutput('U').values.NodeArray(uu)
             instance = odb.rootAssembly.Instance(p.name.upper() + '-1',p)
             for sets in instance.obj.sets.values(): #Distributing Mdb sets into Odb sets
                 if len(sets.elements) > 0:
                     instance.ElementSet(sets.name.upper(),sets.elements)
+            historyregion = odb.steps[s.name.upper()].HistoryRegion('Assembly ASSEMBLY')
 
-            #Field and history outputs
+            #Field outputs
             for fo in s.fieldOutputRequestStates.values():
                 for v in fo.variables:
                     if v == 'MISESMAX':
                         vonmises = []
                         for e in p.elements:
-                            u_e = uu[e.connectivity[0]]
-                            for c in e.connectivity[1:]:
+                            u_e = []
+                            for c in e.connectivity:
                                 u_e = np.hstack([u_e,uu[c]])
                             strain_e = elementsBmatrix[e.label] @ u_e
                             s_e = elementsEmatrix[e.label] @ strain_e
                             vonmises += [(((s_e[0]-s_e[1])**2 + (s_e[1]-s_e[2])**2 + (s_e[2]-
                                                 s_e[0])**2 + 6*(s_e[3]**2 + s_e[4]**2 + s_e[5]**2))/2)**0.5]
                             frame.FieldOutput('MISESMAX').values.ElementArray(vonmises)
-                    if v == 'ESEDEN':
-                        pass
+                    elif v == 'ESEDEN':
+                        eseden = []
+                        for e in p.elements:
+                            u_e = []
+                            for c in e.connectivity:
+                                u_e = np.hstack([u_e, uu[c]])
+                            eseden += [(u_e.T @ elementsstiffness[e.label] @ u_e)/2]
+                            frame.FieldOutput('ESEDEN').values.ElementArray(eseden)
+                    elif v == 'EVOL':
+                        if p.elementType == 'uniformHex':
+                            evol = [p.HexElementVolume for e in p.elements]
+                        frame.FieldOutput('EVOL').values.ElementArray(evol)
                     else:
                         print('Field output {} not found'.format(v))
+            #History outputs
+            for ho in s.historyOutputRequestStates.values():
+                for v in ho.variables:
+                    if v == 'ALLWK': #Total energy output
+                        histout = historyregion.HistoryOutput(v, initial_frame.number, 0)
+                        compliance_energy = F.T @ u
+                        histout.addData(frame.number,compliance_energy[0,0])
+                    else:
+                        print('History output {} not found'.format(v))
 
     with open(job_name + '.odb', 'wb') as output:
         pickle.dump(odb, output, pickle.HIGHEST_PROTOCOL)

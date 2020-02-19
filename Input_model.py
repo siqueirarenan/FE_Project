@@ -13,7 +13,7 @@ if __name__=="__main__":
     part = mdl.Part('Part-1')
     mdl.Material('Material-1').Elastic(table = ((1.0,0.3,),))
     mdl.HomogeneousSolidSection('Section-1','Material-1')
-    w,h,d = part.uniformHexMesh(10,10,10,5)
+    w,h,d = part.uniformHexMesh(10,10,10,1)
     part.SectionAssignment(part.Set('Set-1',part.elements),'Section-1')
 
     #Step and outputs
@@ -35,7 +35,9 @@ if __name__=="__main__":
     #Plots
     #FE_Plots.undeformedNodePlot(mdl, part, step)
     #FE_Plots.deformedNodePlot(mdl, part, step, odb, scale_factor=1)
-    FE_Plots.vonMisesHexMeshPlot(w,h,d,step,odb)
+    FE_Plots.FieldOutputHexMeshPlot(w, h, d, step, odb, 'MISESMAX')
+    FE_Plots.FieldOutputHexMeshPlot(w, h, d, step, odb, 'ESEDEN')
+    FE_Plots.HistoryOutputPlot(odb, step, ['ALLWK'])
 
 
     print(time.time() - t_i)

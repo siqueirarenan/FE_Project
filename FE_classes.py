@@ -3,6 +3,7 @@
 #from mpl_toolkits.mplot3d import Axes3D #needed
 import FE_solver
 import pickle
+import weakref
 
 #mdb = openMdb(path+file) 'C:\Users\sique\Desktop\QLK_Model-614-2.cae'
 def openMdb(file_name): #function to open a model data base
@@ -94,11 +95,13 @@ class Part:  #class of parts of a model
         self.elements = MeshElementArray([MeshElement(tuple(vox[i]), i) for i in range(vox.shape[0])])
 
     def uniformHexMesh(self , w , h , d , ms ):
+        self.elementType = 'uniformHex'
         # Mesh simple hexahedric uniform
         width = round(w/ms)  #Calculating number of elements on each side
         height = round(h/ms)
         depth = round(d/ms)
         ms_w, ms_h, ms_d = w / width, h / height, d / depth #calculating element sizes
+        self.HexElementVolume = ms_w*ms_h*ms_d
         #print(ms_w, ms_h, ms_d)
         self.nodes = MeshNodeArray([])
         count = 1
@@ -166,14 +169,14 @@ class Region:  #Like a set, but more complex
         return self
 
 class MeshElementArray:
-    elements = None
-    def __init__(self,elements,npe):
+    def __init__(self,elements=None,npe=None):
         self.elements = elements
         self.nodePerElement = npe
     def __getitem__(self, item):
         return self.elements[item]
     def __add__(self, other):
-        self.elements += other  #other must be element object!!!
+        assert(isinstance(other[0],MeshElement))
+        self.elements += other
         return self
     def __len__(self):
         return len(self.elements)
@@ -182,32 +185,33 @@ class MeshElementArray:
         return MeshElementArray(filtered_ele)
 
 class MeshElement:
-    connectivity = ()
-    label = None
+    _objs = set()
     def __init__(self,connectivity,label):
         self.connectivity = connectivity
         self.label = label
-    def getAdjacentElements(self):
-        #!!!
-        pass
+        self._objs.add(self)
     def setMaterial(self,mat_name):
         self.material = mat_name
+    def getAdjacentElements(self):
+        adj_e = []
+        for e in self._objs:
+            if len(set(self.connectivity).intersection(set(e.connectivity))) >= 3 and e is not self:
+                adj_e += [e]
+        return MeshElementArray(adj_e,npe=8)
 
 class MeshNodeArray:
-    nodes = None #Array of MeshNode object
     def __init__(self,nodes):
         self.nodes = nodes
     def __getitem__(self, item):
         return self.nodes[item]
     def __add__(self, other):
-        self.nodes += other  #other must be node object!!!
+        assert(isinstance(other[0],MeshNode))
+        self.nodes += other
         return self
     def __len__(self):
         return len(self.nodes)
 
 class MeshNode:
-    coordinates = () #Node coordinates as tuple x,y,z
-    label = None
     def __init__(self, coordinates, label):
         self.coordinates = coordinates
         self.label = label
@@ -215,7 +219,6 @@ class MeshNode:
         pass
 
 class Material:  #class of materials of a model
-    name = None
     def __init__(self,mat_name):
         self.name = mat_name
     def Elastic(self,dependencies=1,table=((0, 0,), )):
@@ -313,8 +316,8 @@ class ModelJob:  #class of jobs of a model
         pass
 
 class Odb:
-    steps = {}
     def __init__(self,name):
+        self.steps = {}
         self.name = name
         self.rootAssembly = OdbAssembly()
     def Step(self,name):
@@ -329,18 +332,24 @@ class Odb:
 
 class OdbStep:
     frames = []
+    historyRegions = {}
     def __init__(self,name):
         self.name = name
     def Frame(self):
-        self.frames += [OdbFrame()]
+        frame_number = len(self.frames)
+        self.frames += [OdbFrame(frame_number)]
         return self.frames[-1]
+    def HistoryRegion(self,name):
+        self.historyRegions[name] = HistoryRegion(name)
+        return self.historyRegions[name]
+
 
 SCALAR = None
 
 class OdbFrame:
-    fieldOutputs = {}
-    def __init__(self):
-        pass
+    def __init__(self,frame_number):
+        self.number = frame_number
+        self.fieldOutputs = {}
     def FieldOutput(self,name, description = None, type = SCALAR):
         self.fieldOutputs[name] = FieldOutput(name,description,type)
         return self.fieldOutputs[name]
@@ -363,7 +372,7 @@ class FieldValueArray:
         self.fieldvalues = []
         self.original_data = orderedfieldvalues
         if labels == 0:
-            labels = list(range(len(orderedfieldvalues)))
+            labels = list(range(1, 1 + len(orderedfieldvalues)))
         count = 0
         for i in orderedfieldvalues:
             self.fieldvalues += [FieldValue(labels[count]).NodeData(i)]
@@ -373,7 +382,7 @@ class FieldValueArray:
         self.fieldvalues = []
         self.original_data = orderedfieldvalues
         if labels == 0:
-            labels = list(range(len(orderedfieldvalues)))
+            labels = list(range(1,1 + len(orderedfieldvalues)))
         count = 0
         for i in orderedfieldvalues:
             self.fieldvalues += [FieldValue(labels[count]).ElementData(i)]
@@ -419,3 +428,22 @@ class OdbSet:
         self.name = name
         self.elements = meshArrayObj if isinstance(meshArrayObj,MeshElementArray) else None
         self.nodes = meshArrayObj if isinstance(meshArrayObj,MeshNodeArray) else None
+
+class HistoryRegion:
+    def __init__(self,name):
+        self.name = name
+        self.historyOutputs = {}
+    def HistoryOutput(self,name,frame,data):
+        self.historyOutputs[name] = HistoryOutput(name,frame,data)
+        return self.historyOutputs[name]
+
+class HistoryOutput:
+    def __init__(self,name,frame=0,data=None):
+        self.name = name
+        self.data = ()
+        self.addData(frame,data)
+    def addData(self,frame,data):
+        data_list = list(self.data)
+        data_list += [(frame,data,)]
+        self.data = tuple(data_list)
+

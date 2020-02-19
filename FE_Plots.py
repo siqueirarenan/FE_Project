@@ -1,5 +1,6 @@
 from mpl_toolkits.mplot3d import Axes3D  # noqa: F401 unused import
 import matplotlib.pyplot as plt
+from matplotlib.collections import EventCollection
 import numpy as np
 
 # Undeformed nodes showing loads and BC
@@ -37,9 +38,9 @@ def deformedNodePlot(mdl, p, s, odb, scale_factor=1):
             ax.scatter(n.coordinates[0] + ug[n.label - 1, 0], n.coordinates[1] + ug[n.label - 1, 1],
                        n.coordinates[2] + ug[n.label - 1, 2], marker='o', color='red')
 
-def vonMisesHexMeshPlot(w,h,d,s,odb):
+def FieldOutputHexMeshPlot(w,h,d,s,odb,fieldoutputname):
     from matplotlib.colors import to_hex
-    vonmises = odb.steps[s.name].frames[-1].fieldOutputs['MISESMAX'].values.original_data
+    fieldoutput = odb.steps[s.name.upper()].frames[-1].fieldOutputs[fieldoutputname].values.original_data
     colornew = []
     for i in range(256):
         c = 2 * i / 256 - 1
@@ -60,14 +61,26 @@ def vonMisesHexMeshPlot(w,h,d,s,odb):
             r = (((c - 0.8) / (1 - 0.8)) * (0.8 - 1)) + 1
             b, g = 0, 0
         colornew += [[r, g, b]]
-    vm = np.array(vonmises)
-    vm = np.divide(vm,max(vm))
+    vm = np.array(fieldoutput)
+    vm = np.divide((vm-min(vm)),max(vm-min(vm)))
     vm = vm.reshape((d,h,w))
     color = np.empty((d,h,w), dtype = 'object')
     for x in range(vm.shape[0]):
         for y in range(vm.shape[1]):
             for z in range(vm.shape[2]):
-                color[x,y,z] = to_hex(colornew[int(round(vm[x,y,z]*len(colornew))-1)])
+                color[x,y,z] = to_hex(colornew[int(round(vm[x,y,z]*(len(colornew)-1)))])
     fig = plt.figure()
     ax = fig.add_subplot('111', projection='3d')
     ax.voxels(np.ones([d, h, w], dtype=np.bool), facecolors=color, edgecolors='k')
+
+def HistoryOutputPlot(odb, s, ho_names):
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1)
+    for ho in ho_names:
+        data = odb.steps[s.name.upper()].historyRegions['Assembly ASSEMBLY'].historyOutputs[ho].data
+        xdata, ydata = [], []
+        for d in data:
+            xdata += [d[0]]
+            ydata += [d[1]]
+        ax.plot(xdata, ydata, color='tab:blue')
+
