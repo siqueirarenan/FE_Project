@@ -1,7 +1,9 @@
-"""General 3D topology optimization code by Zhihao Zuo and Yimin Xie. Note that the CAE file shall contain a model 'Model-1' with a dependent part 'Part-1' and a static step 'Step-1'."""
-import math,customKernel
-from abaqus import getInput,getInputs
-from odbAccess import openOdb
+"""General 3D topology optimization code by Zhihao Zuo and Yimin Xie. Note that the CAE file shall contain a model 'Model-1' with a dependent part 'Part-1' and a static step 'Step-1'.
+Lightly adapted version for FE Project, by Renan Siqueira"""
+import math, sys
+from FE_classes import *
+from FE_Plots import *
+import matplotlib.pyplot as plt
 ## Function of formatting Abaqus model for stiffness optimisation
 def fmtMdb(Mdb):
     mdl = Mdb.models['Model-1']
@@ -13,16 +15,16 @@ def fmtMdb(Mdb):
     mdl.HomogeneousSolidSection('voidSec','Material02')
     part.SectionAssignment(part.Set('ss',part.elements),'sldSec')
     # Define output request
-    mdl.FieldOutputRequest('SEDensity','Step-1',variables=('ELEDEN', ))
+    mdl.FieldOutputRequest('SEDensity','Step-1',variables=('ESEDEN', ))
     mdl.HistoryOutputRequest('ExtWork','Step-1',variables=('ALLWK', ))
 ## Function of running FEA for raw sensitivities and objective function
 def FEA(Iter,Mdb,Xe,Ae):
     Mdb.Job('Design_Job'+str(Iter),'Model-1').submit()
     Mdb.jobs['Design_Job'+str(Iter)].waitForCompletion()
-    opdb = openOdb('Design_Job'+str(Iter)+'.odb')
-    seng = opdb.steps['Step-1'].frames[-1].fieldOutputs['ESEDEN'].values
+    opdb = openOdb('Output_files\\' + 'Design_Job'+str(Iter)+'.odb')
+    seng = opdb.steps['STEP-1'].frames[-1].fieldOutputs['ESEDEN'].values
     for en in seng: Ae[en.elementLabel]=en.data/Xe[en.elementLabel]
-    obj=opdb.steps['Step-1'].historyRegions['Assembly ASSEMBLY'].historyOutputs['ALLWK'].data[-1][1]
+    obj=opdb.steps['STEP-1'].historyRegions['Assembly ASSEMBLY'].historyOutputs['ALLWK'].data[-1][1]
     opdb.close()
     return obj
 ## Function of preparing filter map (Fm={elm1:[[el1,el2,...],[wf1,wf2,...]],...})
@@ -70,8 +72,8 @@ if __name__ == '__main__':
     # Set parameters and inputs
     pars = (('VolFrac:','0.5'), ('Rmin:', '1'), ('ER:', '0.02'))
     vf,rmin,ert = [float(k) if k!=None else 0 for k in getInputs(pars,dialogTitle='Parameters')]
-    if vf<=0 or rmin<0 or ert<=0: sys.exit()
-    mddb = openMdb(getInput('Input CAE file:',default='D:\Doutorado\107_IZEO 3D\01_Pyton_BESO_programs\Example_bar.cae'))
+    if vf<=0 or rmin<0 or ert<=0: sys.exit("Bad input")
+    mddb = openMdb(getInputs((('Input CAE file:','C:\\Users\\sique\\Desktop\\FE_Project\\Example_model.rcae'),))[0])
     # Design initialization
     fmtMdb(mddb)
     part = mddb.models['Model-1'].parts['Part-1']
@@ -82,6 +84,7 @@ if __name__ == '__main__':
     if rmin>0: preFlt(rmin,elmts,nds,fm)
     # Optimisation iteration
     change, iter, obj = 1, -1, 0
+    geometry_fig = plt.figure(figsize=[10,10])
     while change > 0.001:
         iter += 1
         # Run FEA
@@ -95,6 +98,13 @@ if __name__ == '__main__':
         nv = max(vf,vh[-1]*(1.0-ert))
         BESO(nv,xe,ae,part,elmts)
         if iter>10: change=math.fabs((sum(oh[iter-4:iter+1])-sum(oh[iter-9:iter-4]))/sum(oh[iter-9:iter-4]))
+        print('Iteration: {}  -  Volume: {}  -  Compliance: {}'.format(iter,vh[-1],oh[-1]))
+        HexGeometryPlot(geometry_fig, part, ['ss'])
+        plt.savefig('Output_files\\' + 'Iteration_' + str(iter) + '.png',bbox_inches = 'tight',)
     # Save results
-    mddb.customData.History = {'vol':vh,'obj':oh}
-    mddb.saveAs('Final_design.cae')
+    with open('Output_files\\' + 'Output.txt', 'w') as output:
+        output.write({'vf':vf,'rmin':rmin,'ert':ert,'vol':vh,'obj':oh})
+    fig = plt.figure()
+    fig.add_subplot(1, 2, 1).plot(vh, color='tab:blue')
+    fig.add_subplot(1, 2, 2).plot(oh, color='tab:red')
+    mddb.saveAs('Output_files\\' + 'Final_design')
