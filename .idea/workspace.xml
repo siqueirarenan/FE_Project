@@ -2,118 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c3d655d6-49df-4669-b60b-08516eb71071" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/BESO_for_FE_project.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Example_model.rcae" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Example_model_creation.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job0.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job1.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job10.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job11.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job12.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job13.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job14.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job15.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job16.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job17.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job18.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job19.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job2.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job20.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job21.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job22.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job23.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job24.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job25.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job26.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job27.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job28.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job29.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job3.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job30.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job31.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job32.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job33.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job34.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job35.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job36.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job37.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job38.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job39.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job4.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job40.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job41.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job42.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job43.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job5.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job6.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job7.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job8.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Design_Job9.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_0.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_10.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_11.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_12.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_13.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_14.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_15.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_16.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_17.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_18.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_19.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_20.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_21.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_22.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_23.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_24.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_25.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_26.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_27.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_28.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_29.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_3.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_31.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_32.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_33.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_34.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_35.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_36.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_37.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_38.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_39.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_4.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_40.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_41.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_42.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_43.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_5.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_7.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_8.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Iteration_9.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Job-1.odb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_files/Output.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BESO_basic.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/FE_Plots.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_Plots.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FE_classes.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_classes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FE_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/FE_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Input_model.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Job-1.odb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/OLD/FE_solver_old.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Test_stiffnessmatrix.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example_model.rcae" beforeDir="false" afterPath="$PROJECT_DIR$/Example_model.rcae" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Output_files/Job-1.odb" beforeDir="false" afterPath="$PROJECT_DIR$/Output_files/Job-1.odb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="FE_Project" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -132,15 +29,18 @@
   </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="Python" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.1816092" />
+    <property name="settings.editor.selected.configurable" value="com.intellij.jarRepository.settings.RemoteRepositoriesConfigurable" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -160,7 +60,7 @@
       <recent name="C:\Users\sique\Desktop\FE_Project\FE_Renan_pack" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.Example_model_creation">
     <configuration name="BESO_for_FE_project" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="FE_Renan_package" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -168,9 +68,9 @@
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
-      <option name="SDK_HOME" value="" />
+      <option name="SDK_HOME" value="C:\Users\sique\AppData\Local\Programs\Python\Python37\python.exe" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
+      <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/BESO_for_FE_project.py" />
@@ -182,11 +82,63 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="Example_model_creation" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FE_Renan_package" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\sique\AppData\Local\Programs\Python\Python37\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Example_model_creation.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="google test" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="FE_Renan_package" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\sique\AppData\Local\Programs\Python\Python37\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/google test.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.BESO_for_FE_project" />
+      <item itemvalue="Python.Example_model_creation" />
+      <item itemvalue="Python.google test" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.Example_model_creation" />
+        <item itemvalue="Python.google test" />
         <item itemvalue="Python.BESO_for_FE_project" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="StructureViewFactory">
+    <option name="ACTIVE_ACTIONS" value=",SHOW_FIELDS,SHOW_INHERITED,ALPHA_COMPARATOR" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -262,7 +214,28 @@
       <option name="project" value="LOCAL" />
       <updated>1582077749413</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Working version, inclusive for BESO">
+      <created>1582171337089</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1582171337089</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Working version, inclusive for BESO">
+      <created>1582171434972</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1582171434972</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Working version, inclusive for BESO">
+      <created>1582173520579</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1582173520579</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -276,76 +249,45 @@
     <MESSAGE value="Working version for displacement and Von Mises stress" />
     <MESSAGE value="Output data-base classes created" />
     <MESSAGE value="ODB working, plots for history and field outputs, getAdjacent elements. Ready for IZEO, without plots" />
-    <option name="LAST_COMMIT_MESSAGE" value="ODB working, plots for history and field outputs, getAdjacent elements. Ready for IZEO, without plots" />
+    <MESSAGE value="Working version, inclusive for BESO" />
+    <option name="LAST_COMMIT_MESSAGE" value="Working version, inclusive for BESO" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="96" y="0" width="1089" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582157421778">
+    <state x="361" y="0" key="#Example_model_creation" timestamp="1603283064674">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="96" y="0" width="1089" height="689" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.689@0.0.1280.689" timestamp="1582157421778" />
-    <state x="373" y="149" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1582104082950">
+    <state x="361" y="0" key="#Example_model_creation/0.0.1280.689@0.0.1280.689" timestamp="1603283064674" />
+    <state x="142" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1603304513828">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="373" y="149" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.689@0.0.1280.689" timestamp="1582104082950" />
-    <state x="371" y="93" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1581983722150">
+    <state x="142" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.689@0.0.1280.689" timestamp="1603304513828" />
+    <state x="373" y="149" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1603283151147">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="371" y="93" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.689@0.0.1280.689" timestamp="1581983722150" />
-    <state x="95" y="80" width="687" height="609" key="CommitChangelistDialog2" timestamp="1582171431744">
+    <state x="373" y="149" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.689@0.0.1280.689" timestamp="1603283151147" />
+    <state x="421" y="101" key="FileChooserDialogImpl" timestamp="1603292202555">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="95" y="80" width="687" height="609" key="CommitChangelistDialog2/0.0.1280.689@0.0.1280.689" timestamp="1582171431744" />
-    <state width="270" height="442" key="Diff.GoToChangePopup" timestamp="1581030629723">
+    <state x="421" y="101" key="FileChooserDialogImpl/0.0.1280.689@0.0.1280.689" timestamp="1603292202555" />
+    <state width="1259" height="165" key="GridCell.Tab.0.bottom" timestamp="1603292209471">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="270" height="442" key="Diff.GoToChangePopup/0.0.1280.689@0.0.1280.689" timestamp="1581030629723" />
-    <state x="93" y="93" width="1095" height="504" key="DiffContextDialog" timestamp="1581032149766">
+    <state width="1259" height="165" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1603292209471" />
+    <state width="1259" height="165" key="GridCell.Tab.0.center" timestamp="1603292209471">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="93" y="93" width="1095" height="504" key="DiffContextDialog/0.0.1280.689@0.0.1280.689" timestamp="1581032149766" />
-    <state x="421" y="101" key="FileChooserDialogImpl" timestamp="1582157315526">
+    <state width="1259" height="165" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1603292209471" />
+    <state width="1259" height="165" key="GridCell.Tab.0.left" timestamp="1603292209470">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state x="421" y="101" key="FileChooserDialogImpl/0.0.1280.689@0.0.1280.689" timestamp="1582157315525" />
-    <state width="1259" height="166" key="GridCell.Tab.0.bottom" timestamp="1582157481124">
+    <state width="1259" height="165" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1603292209470" />
+    <state width="1259" height="165" key="GridCell.Tab.0.right" timestamp="1603292209471">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="166" key="GridCell.Tab.0.bottom/0.0.1280.689@0.0.1280.689" timestamp="1582157481124" />
-    <state width="1259" height="166" key="GridCell.Tab.0.center" timestamp="1582157481123">
+    <state width="1259" height="165" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1603292209471" />
+    <state x="142" y="0" key="SettingsEditor" timestamp="1603304479278">
       <screen x="0" y="0" width="1280" height="689" />
     </state>
-    <state width="1259" height="166" key="GridCell.Tab.0.center/0.0.1280.689@0.0.1280.689" timestamp="1582157481123" />
-    <state width="1259" height="166" key="GridCell.Tab.0.left" timestamp="1582157481123">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1259" height="166" key="GridCell.Tab.0.left/0.0.1280.689@0.0.1280.689" timestamp="1582157481123" />
-    <state width="1259" height="166" key="GridCell.Tab.0.right" timestamp="1582157481123">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state width="1259" height="166" key="GridCell.Tab.0.right/0.0.1280.689@0.0.1280.689" timestamp="1582157481123" />
-    <state x="142" y="0" key="SettingsEditor" timestamp="1582157437442">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="142" y="0" key="SettingsEditor/0.0.1280.689@0.0.1280.689" timestamp="1582157437442" />
-    <state x="233" y="79" key="Vcs.Push.Dialog.v2" timestamp="1582077784212">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="233" y="79" key="Vcs.Push.Dialog.v2/0.0.1280.689@0.0.1280.689" timestamp="1582077784212" />
-    <state x="170" y="51" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1" timestamp="1581030535770">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="170" y="51" key="com.intellij.execution.console.ConsoleHistoryController$MyBrowseAction$1/0.0.1280.689@0.0.1280.689" timestamp="1581030535770" />
-    <state x="337" y="171" key="com.intellij.ide.util.TipDialog" timestamp="1582157241807">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="337" y="171" key="com.intellij.ide.util.TipDialog/0.0.1280.689@0.0.1280.689" timestamp="1582157241807" />
-    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1582171408858">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="450" y="263" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.689@0.0.1280.689" timestamp="1582171408858" />
-    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup" timestamp="1582007121348">
-      <screen x="0" y="0" width="1280" height="689" />
-    </state>
-    <state x="303" y="10" width="672" height="678" key="search.everywhere.popup/0.0.1280.689@0.0.1280.689" timestamp="1582007121348" />
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.689@0.0.1280.689" timestamp="1603304479278" />
   </component>
 </project>
